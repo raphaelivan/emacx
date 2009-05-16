@@ -18,13 +18,14 @@
                          "~/.emacs.d/plugins/jump.el")
                          load-path))
 
-; Color Theme
+; Color Theme and fonts
 (require 'color-theme)
 (color-theme-initialize)
-;(color-theme-twilight)
-(color-theme-arjen)
-;(load-file "~/.emacs.d/includes/twit.el")
+(color-theme-twilight)
+;(color-theme-arjen)
+(set-default-font "Monaco-12")
 
+;(load-file "~/.emacs.d/includes/twit.el")
 
 ; Configurações dos Snippets
 (require 'yasnippet)
@@ -187,24 +188,24 @@ exec-to-string command, but it works and seems fast"
 
 
 ; Php Mode
-(require 'php-mode)
+;(require 'php-mode)
 ;(setq auto-mode-alist  (cons '(".php$" . php-mode) auto-mode-alist))
 ;(setq auto-mode-alist  (cons '(".inc$" . php-mode) auto-mode-alist))
 ;(setq auto-mode-alist  (cons '(".phtml$" . php-mode) auto-mode-alist))
 ;(setq auto-mode-alist  (cons '(".tpl$" . php-mode) auto-mode-alist))
-(define-key php-mode-map (kbd "RET") 'newline-and-indent)
-(defun wicked/php-mode-init ()
-  "Set some buffer-local variables."
+;(define-key php-mode-map (kbd "RET") 'newline-and-indent)
+;(defun wicked/php-mode-init ()
+;  "Set some buffer-local variables."
 ;  (setq case-fold-search t)
-  (setq indent-tabs-mode nil)
+;;  (setq indent-tabs-mode nil)
 ;  (setq show-paren-mode t)
-  (setq fill-column 78))
+;  (setq fill-column 78))
 ;  (setq c-basic-offset 2)
 ;  (c-set-offset 'arglist-cont 0)
 ;  (c-set-offset 'arglist-intro '+)
 ;  (c-set-offset 'case-label 2)
 ;  (c-set-offset 'arglist-close 0))
-(add-hook 'php-mode-hook 'wicked/php-mode-init)
+; (add-hook 'php-mode-hook 'wicked/php-mode-init)
 
 
 ; Emacs-Rails
@@ -231,32 +232,30 @@ exec-to-string command, but it works and seems fast"
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
- '(display-time-mode t)
+'(display-time-mode t)
  '(ecb-enlarged-compilation-window-max-height (quote best))
  '(ecb-eshell-auto-activate nil)
  '(ecb-layout-name "town")
  '(ecb-layout-nr 9)
- '(ecb-layout-window-sizes (quote (("town" (0.21794871794871795 . 0.4878048780487805) (0.21794871794871795 . 0.4878048780487805)) ("left-analyse" (0.21794871794871795 . 0.43902439024390244) (0.21794871794871795 . 0.34146341463414637) (0.21794871794871795 . 0.0975609756097561) (0.21794871794871795 . 0.0975609756097561)))))
- '(ecb-non-semantic-parsing-function nil)
- '(ecb-options-version "2.32")
- '(ecb-other-window-behavior (quote edit-and-compile))
- '(ecb-other-window-jump-behavior (quote edit-and-compile))
- '(ecb-primary-secondary-mouse-buttons (quote mouse-1--C-mouse-1))
- '(ecb-source-path (quote ("/home/" "Home" ("/home/nofxx/git/rtrac" "rtrac") (#("/home/nofxx/git/imoby" 0 21 (help-echo "Mouse-2 toggles maximizing, mouse-3 displays a popup-menu")) "imoby") ("/home/nofxx/git/farm" "farm"))))
- '(ecb-tip-of-the-day nil)
- '(flymake-js-off t)
- '(flymake-php-off t)
- '(inhibit-startup-screen t)
+ ;'(ecb-layout-window-sizes (quote (("town" (0.21794871794871795 . 0.4878048780487805) (0.21794871794871795 . 0.4878048780487805)) ("left-analyse" (0.21794871794871795 . 0.43902439024390244) (0.21794871794871795 . 0.34146341463414637) (0.21794871794871795 . 0.0975609756097561) (0.21794871794871795 . 0.0975609756097561)))))
+ ;'(ecb-non-semantic-parsing-function nil)
+ ;'(ecb-options-version "2.32")
+ ;'(ecb-other-window-behavior (quote edit-and-compile))
+ ;'(ecb-other-window-jump-behavior (quote edit-and-compile))
+ ;'(ecb-primary-secondary-mouse-buttons (quote mouse-1--C-mouse-1))
+ ;'(ecb-source-path (quote ("/home/" "Home" ("/home/nofxx/git/rtrac" "rtrac") (#("/home/nofxx/git/imoby" 0 21 (help-echo "Mouse-2 toggles maximizing, mouse-3 displays a popup-menu")) "imoby") ("/home/nofxx/git/farm" "farm"))))
+ ;'(ecb-tip-of-the-day nil)
+ ;'(flymake-js-off t)
+ ;'(flymake-php-off t)
+ ;'(inhibit-startup-screen t)
  '(menu-bar-mode t)
- '(php-mode-force-pear t)
- '(php-mode-hook (quote (wicked/php-mode-init)))
+ ;'(php-mode-force-pear t)
+ ;'(php-mode-hook (quote (wicked/php-mode-init)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
  '(tooltip-mode nil)
- '(twit-pass "")
- '(twit-user ""))
-
-
+ ;'(twit-pass "")
+ ;'(twit-user ""))
 
 ; Configurando o sistema de backup do Emacs
 (setq backup-by-copying t               ; don't clobber symlinks
@@ -280,8 +279,6 @@ exec-to-string command, but it works and seems fast"
    "Command to kill a compilation launched by `mode-compile'" t)
   (global-set-key "\C-ck" 'mode-compile-kill)
 
-(require 'rspec-mode)
-
 (setq default-truncate-lines t)
 
 (require 'linum)
@@ -290,6 +287,8 @@ exec-to-string command, but it works and seems fast"
 (require 'haml-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
 
+(require 'rspec-mode)
+(require 'lua-mode)
 (require 'magit)
 
 (defun autotest ()
@@ -305,6 +304,18 @@ exec-to-string command, but it works and seems fast"
 ; add to ruby mode hook:
 (define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
+; from http://github.com/topfunky/emacs-starter-kit
+(defun textmate-next-line ()
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+(defun textmate-previous-line ()
+  (interactive)
+  (beginning-of-line)
+  (newline-and-indent)
+  (previous-line)
+  (indent-according-to-mode))
+
 ; nofxx
 (global-set-key "\C-x\C-g" 'magit-status)
 (global-set-key "\M-/" 'comment-or-uncomment-region)
@@ -316,6 +327,8 @@ exec-to-string command, but it works and seems fast"
 (global-set-key "\M-a" 'magit-status)
 (global-set-key "\M-r" 'query-replace)
 (global-set-key "\M-w" 'ido-switch-buffer)
+(global-set-key [M-return] 'textmate-next-line)
+(global-set-key [C-return] 'textmate-previous-line)
 
 (autoload 'findr "findr" "Find file name." t)
 (define-key global-map [(meta control S)] 'findr)
