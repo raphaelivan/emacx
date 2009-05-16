@@ -253,7 +253,7 @@ exec-to-string command, but it works and seems fast"
  ;'(php-mode-hook (quote (wicked/php-mode-init)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
- '(tooltip-mode nil)
+ '(tooltip-mode nil))
  ;'(twit-pass "")
  ;'(twit-user ""))
 
