@@ -8,6 +8,12 @@ Lots of modes and shortcuts to make coding ruby/rails more fun.
   git clone git://github.com/nofxx/emacs-rails
   cp emacs-rails/.* ~
 
+=== Font
+
+  Monaco for Linux is used here, comment/change it if you want in .emacs or:
+
+  cp -r .fonts ~
+  sudo fc-cache -vf
 
 == Emacs
 
