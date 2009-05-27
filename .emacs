@@ -23,7 +23,7 @@
 (color-theme-initialize)
 (color-theme-twilight)
 ;(color-theme-arjen)
-(set-default-font "Monaco-12")
+(set-default-font "Monaco-14")
 
 ;(load-file "~/.emacs.d/includes/twit.el")
 
@@ -232,25 +232,13 @@ exec-to-string command, but it works and seems fast"
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
-'(display-time-mode t)
+ '(display-time-mode t)
  '(ecb-enlarged-compilation-window-max-height (quote best))
  '(ecb-eshell-auto-activate nil)
  '(ecb-layout-name "town")
  '(ecb-layout-nr 9)
- ;'(ecb-layout-window-sizes (quote (("town" (0.21794871794871795 . 0.4878048780487805) (0.21794871794871795 . 0.4878048780487805)) ("left-analyse" (0.21794871794871795 . 0.43902439024390244) (0.21794871794871795 . 0.34146341463414637) (0.21794871794871795 . 0.0975609756097561) (0.21794871794871795 . 0.0975609756097561)))))
- ;'(ecb-non-semantic-parsing-function nil)
- ;'(ecb-options-version "2.32")
- ;'(ecb-other-window-behavior (quote edit-and-compile))
- ;'(ecb-other-window-jump-behavior (quote edit-and-compile))
- ;'(ecb-primary-secondary-mouse-buttons (quote mouse-1--C-mouse-1))
- ;'(ecb-source-path (quote ("/home/" "Home" ("/home/nofxx/git/rtrac" "rtrac") (#("/home/nofxx/git/imoby" 0 21 (help-echo "Mouse-2 toggles maximizing, mouse-3 displays a popup-menu")) "imoby") ("/home/nofxx/git/farm" "farm"))))
- ;'(ecb-tip-of-the-day nil)
- ;'(flymake-js-off t)
- ;'(flymake-php-off t)
- ;'(inhibit-startup-screen t)
+ '(ecb-options-version "2.32")
  '(menu-bar-mode t)
- ;'(php-mode-force-pear t)
- ;'(php-mode-hook (quote (wicked/php-mode-init)))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
@@ -286,6 +274,13 @@ exec-to-string command, but it works and seems fast"
 
 (require 'haml-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+(require 'sass-mode)
+
+(require 'cucumber-mode)
+(add-to-list 'load-path "~/.emacs.d/snippets/feature-mode")
+;; ;; and load it
+(autoload 'feature-mode "feature-mode" "Mode for editing cucumber files" t)
+(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
 (require 'rspec-mode)
 (require 'lua-mode)
@@ -340,3 +335,9 @@ exec-to-string command, but it works and seems fast"
 (define-key global-map [(meta control r)] 'findr-query-replace)
 
 ;(define-key shell-mode-map "\C-c\C-a" 'autotest-switch)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
