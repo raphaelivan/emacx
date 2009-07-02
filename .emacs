@@ -287,6 +287,7 @@ exec-to-string command, but it works and seems fast"
 (require 'rspec-mode)
 (require 'lua-mode)
 (require 'magit)
+(require 'gist)
 
 (defun autotest ()
 (interactive)
