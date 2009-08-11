@@ -314,6 +314,10 @@ exec-to-string command, but it works and seems fast"
   (previous-line)
   (indent-according-to-mode))
 
+(setq auto-mode-alist (append
+  '(("\\.cu$" . c++-mode))
+   auto-mode-alist))
+
 ; nofxx
 (global-set-key "\C-x\C-g" 'magit-status)
 (global-set-key "\M-/" 'comment-or-uncomment-region)
@@ -344,3 +348,6 @@ exec-to-string command, but it works and seems fast"
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  )
+
+;; X copy & paste
+(setq x-select-enable-clipboard t)
