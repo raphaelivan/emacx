@@ -1,21 +1,22 @@
 (setq user-full-name "nofxx")
 (setq user-mail-address "user@user.com")
 (prefer-coding-system 'utf-8)
-
+;;(setq c-basic-offset 2)
+;;(setq tab-width 2)
+;;(setq indent-tabs-mode nil)
 (setq load-path
         (append (list nil "~/.emacs.d"
-                         "~/.emacs.d/plugins"
                          "~/.emacs.d/includes"
-                         "~/.emacs.d/plugins/color-theme"
-                         "~/.emacs.d/plugins/nxhtml"
-                         "~/.emacs.d/plugins/rinari"
-                         "~/.emacs.d/plugins/rinari/rhtml"
-                         "~/.emacs.d/plugins/emacs-rails"
-                         "~/.emacs.d/plugins/eieio"
-                         "~/.emacs.d/plugins/semantic"
-                         "~/.emacs.d/plugins/speedbar"
-                         "~/.emacs.d/plugins/ecb"
-                         "~/.emacs.d/plugins/jump.el")
+                         "~/.emacs.d/includes/color-theme"
+;;                         "~/.emacs.d/includes/nxhtml"
+                         "~/.emacs.d/includes/rinari"
+                         "~/.emacs.d/includes/rinari/rhtml"
+                         "~/.emacs.d/includes/emacs-rails"
+                         "~/.emacs.d/includes/eieio"
+                         "~/.emacs.d/includes/semantic"
+                         "~/.emacs.d/includes/speedbar"
+                         "~/.emacs.d/includes/ecb"
+                         "~/.emacs.d/includes/jump.el")
                          load-path))
 
 ; Color Theme and fonts
@@ -44,6 +45,7 @@
 ; JavaScript Mode
 (autoload 'js2-mode "js2" "Major mode for editing javascript scripts." t)
 (setq auto-mode-alist  (cons '(".js$" . js2-mode) auto-mode-alist))
+
 
 ; Ruby Mode
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
@@ -127,34 +129,34 @@ exec-to-string command, but it works and seems fast"
 
 ;;; Flymake
 
-(eval-after-load 'ruby-mode
-  '(progn
-     (require 'flymake)
+;; (eval-after-load 'ruby-mode
+;;   '(progn
+;;      (require 'flymake)
 
-     ;; Invoke ruby with '-c' to get syntax checking
-     (defun flymake-ruby-init ()
-       (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                          'flymake-create-temp-inplace))
-              (local-file (file-relative-name
-                           temp-file
-                           (file-name-directory buffer-file-name))))
-         (list "ruby" (list "-c" local-file))))
+;;      ;; Invoke ruby with '-c' to get syntax checking
+;;      (defun flymake-ruby-init ()
+;;        (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                           'flymake-create-temp-inplace))
+;;               (local-file (file-relative-name
+;;                            temp-file
+;;                            (file-name-directory buffer-file-name))))
+;;          (list "ruby" (list "-c" local-file))))
 
-     (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-     (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
+;;      (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
+;;      (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
 
-     (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3)
-           flymake-err-line-patterns)
+;;      (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3)
+;;            flymake-err-line-patterns)
 
-     (add-hook 'ruby-mode-hook
-               (lambda ()
-                 (when (and buffer-file-name
-                            (file-writable-p
-                             (file-name-directory buffer-file-name))
-                            (file-writable-p buffer-file-name))
-                   (local-set-key (kbd "C-c d")
-                                  'flymake-display-err-menu-for-current-line)
-                   (flymake-mode t))))))
+;;      (add-hook 'ruby-mode-hook
+;;                (lambda ()
+;;                  (when (and buffer-file-name
+;;                             (file-writable-p
+;;                              (file-name-directory buffer-file-name))
+;;                             (file-writable-p buffer-file-name))
+;;                    (local-set-key (kbd "C-c d")
+;;                                   'flymake-display-err-menu-for-current-line)
+;;                    (flymake-mode t))))))
 
 ;;(eval-after-load 'haml-mode
   ;;(if (functionp 'whitespace-mode)
@@ -172,19 +174,19 @@ exec-to-string command, but it works and seems fast"
 (setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
 
 ; XHTML Mode
-(load "autostart.el")
-(require 'mumamo-fun)
+;; (load "autostart.el")
+;; (require 'mumamo-fun)
 
-(setq
-  nxhtml-global-minor-mode t
-  mumamo-chunk-coloring 'submode-colored
-  nxhtml-skip-welcome t
-  indent-region-mode t
-  rng-nxml-auto-validate-flag nil
-  nxml-degraded t
-)
-(add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo))
-(add-to-list 'auto-mode-alist '("\.html.erb$" . html-mode))
+;; (setq
+;;   nxhtml-global-minor-mode t
+;;   mumamo-chunk-coloring 'submode-colored
+;;   nxhtml-skip-welcome t
+;;   indent-region-mode t
+;;   rng-nxml-auto-validate-flag nil
+;;   nxml-degraded t
+;; )
+;; (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo))
+;; (add-to-list 'auto-mode-alist '("\.html.erb$" . html-mode))
 
 
 ; Php Mode
@@ -200,7 +202,7 @@ exec-to-string command, but it works and seems fast"
 ;;  (setq indent-tabs-mode nil)
 ;  (setq show-paren-mode t)
 ;  (setq fill-column 78))
-;  (setq c-basic-offset 2)
+;
 ;  (c-set-offset 'arglist-cont 0)
 ;  (c-set-offset 'arglist-intro '+)
 ;  (c-set-offset 'case-label 2)
@@ -318,6 +320,8 @@ exec-to-string command, but it works and seems fast"
   '(("\\.cu$" . c++-mode))
    auto-mode-alist))
 
+
+
 ; nofxx
 (global-set-key "\C-x\C-g" 'magit-status)
 (global-set-key "\M-/" 'comment-or-uncomment-region)
@@ -349,5 +353,47 @@ exec-to-string command, but it works and seems fast"
   ;; If there is more than one, they won't work right.
  )
 
+(setq load-path (cons  "/usr/lib/erlang/lib/tools-2.6.4/emacs"
+     load-path))
+     (setq erlang-root-dir "/usr/bin/otp")
+     (setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
+     (require 'erlang-start)
+
+
 ;; X copy & paste
 (setq x-select-enable-clipboard t)
+
+    (setq-default tab-width 2) ; or any other preferred value
+    (setq cua-auto-tabify-rectangles nil)
+
+    (defadvice align (around smart-tabs activate)
+      (let ((indent-tabs-mode nil)) ad-do-it))
+
+    (defadvice align-regexp (around smart-tabs activate)
+      (let ((indent-tabs-mode nil)) ad-do-it))
+
+    (defadvice indent-relative (around smart-tabs activate)
+      (let ((indent-tabs-mode nil)) ad-do-it))
+
+    (defmacro smart-tabs-advice (function offset)
+      (defvaralias offset 'tab-width)
+      `(defadvice ,function (around smart-tabs activate)
+         (cond
+          (indent-tabs-mode
+           (save-excursion
+             (beginning-of-line)
+             (while (looking-at "\t*\\( +\\)\t+")
+               (replace-match "" nil nil nil 1)))
+           (setq tab-width tab-width)
+           (let ((tab-width fill-column)
+                 (,offset fill-column))
+             ad-do-it))
+          (t
+           ad-do-it))))
+
+    (smart-tabs-advice c-indent-line c-basic-offset)
+    (smart-tabs-advice c-indent-region c-basic-offset)
+(smart-tabs-advice js2-indent-line js2-basic-offset)
+
+    (smart-tabs-advice vhdl-indent-line vhdl-basic-offset)
+    (setq vhdl-indent-tabs-mode t)

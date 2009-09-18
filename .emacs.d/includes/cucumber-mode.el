@@ -63,7 +63,7 @@
     nil
   (setq feature-mode-map (make-sparse-keymap))
   (define-key feature-mode-map "\C-m" 'newline)
-  (define-key feature-mode-map "\M-q" 'feature-align-table))
+  (define-key feature-mode-map "\M-'" 'feature-align-table))
 
 ;;
 ;; Syntax table
