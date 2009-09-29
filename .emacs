@@ -320,6 +320,11 @@ exec-to-string command, but it works and seems fast"
   '(("\\.cu$" . c++-mode))
    auto-mode-alist))
 
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
 
 
 ; nofxx
