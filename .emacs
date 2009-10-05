@@ -8,14 +8,12 @@
         (append (list nil "~/.emacs.d"
                          "~/.emacs.d/includes"
                          "~/.emacs.d/includes/color-theme"
-;;                         "~/.emacs.d/includes/nxhtml"
                          "~/.emacs.d/includes/rinari"
                          "~/.emacs.d/includes/rinari/rhtml"
                          "~/.emacs.d/includes/emacs-rails"
                          "~/.emacs.d/includes/eieio"
                          "~/.emacs.d/includes/semantic"
                          "~/.emacs.d/includes/speedbar"
-                         "~/.emacs.d/includes/ecb"
                          "~/.emacs.d/includes/jump.el")
                          load-path))
 
@@ -173,42 +171,6 @@ exec-to-string command, but it works and seems fast"
 (autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
 (setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
 
-; XHTML Mode
-;; (load "autostart.el")
-;; (require 'mumamo-fun)
-
-;; (setq
-;;   nxhtml-global-minor-mode t
-;;   mumamo-chunk-coloring 'submode-colored
-;;   nxhtml-skip-welcome t
-;;   indent-region-mode t
-;;   rng-nxml-auto-validate-flag nil
-;;   nxml-degraded t
-;; )
-;; (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo))
-;; (add-to-list 'auto-mode-alist '("\.html.erb$" . html-mode))
-
-
-; Php Mode
-;(require 'php-mode)
-;(setq auto-mode-alist  (cons '(".php$" . php-mode) auto-mode-alist))
-;(setq auto-mode-alist  (cons '(".inc$" . php-mode) auto-mode-alist))
-;(setq auto-mode-alist  (cons '(".phtml$" . php-mode) auto-mode-alist))
-;(setq auto-mode-alist  (cons '(".tpl$" . php-mode) auto-mode-alist))
-;(define-key php-mode-map (kbd "RET") 'newline-and-indent)
-;(defun wicked/php-mode-init ()
-;  "Set some buffer-local variables."
-;  (setq case-fold-search t)
-;;  (setq indent-tabs-mode nil)
-;  (setq show-paren-mode t)
-;  (setq fill-column 78))
-;
-;  (c-set-offset 'arglist-cont 0)
-;  (c-set-offset 'arglist-intro '+)
-;  (c-set-offset 'case-label 2)
-;  (c-set-offset 'arglist-close 0))
-; (add-hook 'php-mode-hook 'wicked/php-mode-init)
-
 
 ; Emacs-Rails
 (load "snippet")
@@ -223,11 +185,11 @@ exec-to-string command, but it works and seems fast"
 (require 'ido)
 (ido-mode t)
 
-; ECB Config
+
 (setq semantic-load-turn-everything-on t)
 (require 'semantic-load)
-(require 'ecb)
-(require 'ecb-autoloads)
+
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -235,11 +197,6 @@ exec-to-string command, but it works and seems fast"
   ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
  '(display-time-mode t)
- '(ecb-enlarged-compilation-window-max-height (quote best))
- '(ecb-eshell-auto-activate nil)
- '(ecb-layout-name "town")
- '(ecb-layout-nr 9)
- '(ecb-options-version "2.32")
  '(flymake-js-off t)
  '(inhibit-startup-screen t)
  '(menu-bar-mode nil)

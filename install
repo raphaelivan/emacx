@@ -1,0 +1,2 @@
+cp -r .emacs* ~
+echo "Have M-x fun!"
