@@ -1,9 +1,15 @@
+;;
+;; User
 (setq user-full-name "nofxx")
 (setq user-mail-address "user@user.com")
 (prefer-coding-system 'utf-8)
 ;;(setq c-basic-offset 2)
 ;;(setq tab-width 2)
 ;;(setq indent-tabs-mode nil)
+(setq-default tab-width 2) ; or any other preferred value
+
+;;
+;; Load Path
 (setq load-path
         (append (list nil "~/.emacs.d"
                          "~/.emacs.d/includes"
@@ -17,38 +23,31 @@
                          "~/.emacs.d/includes/jump.el")
                          load-path))
 
-; Color Theme and fonts
+;;
+;; SO Detection
+(setq macosx-p (string-match "darwin" (symbol-name system-type)))
+(setq linux-p (string-match "linux" (symbol-name system-type)))
+(if macosx-p   (load-file "~/.emacs.d/osx.el"))
+(if linux-p    (load-file "~/.emacs.d/linux.el"))
+
+;;
+;; Color Theme and fonts
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-twilight)
 ;(color-theme-arjen)
-(set-default-font "Monaco-14")
-
 (when (fboundp 'windmove-default-keybindings)
       (windmove-default-keybindings 'meta))
 
-;(load-file "~/.emacs.d/includes/twit.el")
-
-; Configurações dos Snippets
+;;
+;; YAS
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/snippets")
 (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
 
-;;; rhtml mode
-(add-to-list 'load-path "~/.emacs.d/includes/rhtml-mode")
-(require 'rhtml-mode)
-
-; CSS Mode
-(autoload 'css-mode "css-mode" "Major mode for editing css files." t)
-(setq auto-mode-alist  (cons '(".css$" . css-mode) auto-mode-alist))
-
-; JavaScript Mode
-;; (autoload 'js2-mode "js2" "Major mode for editing javascript scripts." t)
-;; (setq auto-mode-alist  (cons '(".js$" . js2-mode) auto-mode-alist))
-
-
-; Ruby Mode
+;;
+;; Ruby
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".erb$" . ruby-mode) auto-mode-alist))
@@ -73,10 +72,7 @@
   )
 )
 
-;;; starter-kit-ruby.el --- Some helpful Ruby code
-;;
 ;; Part of the Emacs Starter Kit
-
 (eval-after-load 'ruby-mode
   '(progn
 ;;     (require 'ruby-compilation)
@@ -97,7 +93,6 @@
 (add-to-list 'completion-ignored-extensions ".rbc")
 
 ;;; Rake
-
 (defun pcomplete/rake ()
   "Completion rules for the `ssh' command."
   (pcomplete-here (pcmpl-rake-tasks)))
@@ -159,9 +154,6 @@ exec-to-string command, but it works and seems fast"
 ;;                                   'flymake-display-err-menu-for-current-line)
 ;;                    (flymake-mode t))))))
 
-;;(eval-after-load 'haml-mode
-  ;;(if (functionp 'whitespace-mode)
-   ;;   (add-hook 'haml-mode-hook 'whitespace-mode)))
 
 ;; TODO: set up ri
 ;; TODO: electric
@@ -169,13 +161,12 @@ exec-to-string command, but it works and seems fast"
 (provide 'starter-kit-ruby)
 ;; starter-kit-ruby.el ends here
 
-
 ; YAML Mode
 (autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
 (setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
 
-
-; Emacs-Rails
+;;
+;; Emacs-Rails
 (load "snippet")
 (load "find-recursive")
 (require 'rails)
@@ -188,10 +179,13 @@ exec-to-string command, but it works and seems fast"
 (require 'ido)
 (ido-mode t)
 
+;; rhtml mode
+(add-to-list 'load-path "~/.emacs.d/includes/rhtml-mode")
+(require 'rhtml-mode)
+
 
 (setq semantic-load-turn-everything-on t)
 (require 'semantic-load)
-
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -222,6 +216,7 @@ exec-to-string command, but it works and seems fast"
              (make-variable-buffer-local 'yas/trigger-key)
              (setq yas/trigger-key [tab])))
 
+;; Tabbar
 (require 'tabbar)
 (tabbar-mode)
   (autoload 'mode-compile "mode-compile"
@@ -233,23 +228,26 @@ exec-to-string command, but it works and seems fast"
 
 (setq default-truncate-lines t)
 
+;; Linum
 (require 'linum)
 (global-linum-mode)
 
+;;
+;; HAML & SASS
 (require 'haml-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
 (require 'sass-mode)
+;;(eval-after-load 'haml-mode
+;;(if (functionp 'whitespace-mode)
+;;   (add-hook 'haml-mode-hook 'whitespace-mode)))
 
+;;
+;; Rspec & Friends
+(require 'rspec-mode)
 (require 'cucumber-mode)
 (add-to-list 'load-path "~/.emacs.d/snippets/feature-mode")
-;; ;; and load it
 (autoload 'feature-mode "feature-mode" "Mode for editing cucumber files" t)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
-
-(require 'rspec-mode)
-(require 'lua-mode)
-(require 'magit)
-(require 'gist)
 
 (defun autotest ()
 (interactive)
@@ -264,43 +262,32 @@ exec-to-string command, but it works and seems fast"
 ; add to ruby mode hook:
 (define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
-; from http://github.com/topfunky/emacs-starter-kit
-(defun textmate-next-line ()
-  (interactive)
-  (end-of-line)
-  (newline-and-indent))
-(defun textmate-previous-line ()
-  (interactive)
-  (beginning-of-line)
-  (newline-and-indent)
-  (previous-line)
-  (indent-according-to-mode))
+;; GIT
+(require 'magit)
+(require 'gist)
 
-(setq auto-mode-alist (append
-  '(("\\.cu$" . c++-mode))
-   auto-mode-alist))
-
+;;
+;; Markdown
 (autoload 'markdown-mode "markdown-mode.el"
    "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
+;;
+;; CSS
+(autoload 'css-mode "css-mode" "Major mode for editing css files." t)
+(setq auto-mode-alist  (cons '(".css$" . css-mode) auto-mode-alist))
 
+;;
+;; JavaScript
+;; (autoload 'js2-mode "js2" "Major mode for editing javascript scripts." t)
+;; (setq auto-mode-alist  (cons '(".js$" . js2-mode) auto-mode-alist))
+;;(load-file "~/.emacs.d/includes/twit.el")
+(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
+(add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
 
-
-; nofxx
-(global-set-key "\C-x\C-g" 'magit-status)
-(global-set-key "\M-/" 'comment-or-uncomment-region)
-(global-set-key "\M-[" 'indent-region)
-(global-set-key "\M-]" 'indent-according-to-mode)
-(global-set-key "\M-s" 'save-buffer)
-(global-set-key "\M-t" 'ido-find-file)
-(global-set-key "\M-q" 'kill-this-buffer)
-(global-set-key "\M-a" 'magit-status)
-(global-set-key "\M-r" 'query-replace)
-(global-set-key "\M-w" 'ido-switch-buffer)
-(global-set-key [M-return] 'textmate-next-line)
-(global-set-key [C-return] 'textmate-previous-line)
-
+;;
+;; Findr!
 (autoload 'findr "findr" "Find file name." t)
 (define-key global-map [(meta control S)] 'findr)
 
@@ -318,17 +305,6 @@ exec-to-string command, but it works and seems fast"
  ;; If there is more than one, they won't work right.
  )
 
-(setq load-path (cons  "/usr/lib/erlang/lib/tools-2.6.4/emacs"
-                       load-path))
-(setq erlang-root-dir "/usr/bin/otp")
-(setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
-(require 'erlang-start)
-
-
-;; X copy & paste
-(setq x-select-enable-clipboard t)
-
-(setq-default tab-width 2) ; or any other preferred value
 (setq cua-auto-tabify-rectangles nil)
 
 (defadvice align (around smart-tabs activate)
@@ -363,24 +339,42 @@ exec-to-string command, but it works and seems fast"
 (smart-tabs-advice vhdl-indent-line vhdl-basic-offset)
 (setq vhdl-indent-tabs-mode t)
 
-
-(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
-(add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
-(add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
-
-(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
-(setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
-
-
 (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
+
+(require 'lua-mode)
 
 ;;(add-hook 'espresso-mode-hook 'espresso-custom-setup)
 ;;(defun espresso-custom-setup ()
   (moz-minor-mode 1);;)
 
+;;
+;; Textmate goods
+;; from http://github.com/topfunky/emacs-starter-kit
+(defun textmate-next-line ()
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+(defun textmate-previous-line ()
+  (interactive)
+  (beginning-of-line)
+  (newline-and-indent)
+  (previous-line)
+  (indent-according-to-mode))
 
-(global-set-key (kbd "C-x p")
-                (lambda ()
-                  (interactive)
-                  (comint-send-string (inferior-moz-process)
-                                      "BrowserReload();")))
+(setq auto-mode-alist (append
+  '(("\\.cu$" . c++-mode))
+   auto-mode-alist))
+
+(global-set-key "\C-x\C-g" 'magit-status)
+(global-set-key "\M-/" 'comment-or-uncomment-region)
+(global-set-key "\M-[" 'indent-region)
+(global-set-key "\M-]" 'indent-according-to-mode)
+(global-set-key "\M-s" 'save-buffer)
+(global-set-key "\M-t" 'ido-find-file)
+(global-set-key "\M-q" 'kill-this-buffer)
+(global-set-key "\M-a" 'magit-status)
+(global-set-key "\M-r" 'query-replace)
+(global-set-key "\M-w" 'ido-switch-buffer)
+(global-set-key [M-return] 'textmate-next-line)
+(global-set-key [C-return] 'textmate-previous-line)
+
