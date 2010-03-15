@@ -2,10 +2,19 @@
 ;; User
 (setq user-full-name "nofxx")
 (setq user-mail-address "user@user.com")
+;; disable line wrap
+(setq default-truncate-lines t)
+
+;; make side by side buffers function the same as the main window
+(setq truncate-partial-width-windows nil)
+
+;; Add F12 to toggle line wrap
+(global-set-key [f12] 'toggle-truncate-lines)
+
 (prefer-coding-system 'utf-8)
 ;;(setq c-basic-offset 2)
 ;;(setq tab-width 2)
-;;(setq indent-tabs-mode nil)
+(setq indent-tabs-mode t)
 (setq-default tab-width 2) ; or any other preferred value
 
 ;;
@@ -196,12 +205,15 @@ exec-to-string command, but it works and seems fast"
  '(display-time-mode t)
  '(flymake-js-off t)
  '(inhibit-startup-screen t)
+ '(fset 'yes-or-no-p 'y-or-n-p)
  '(menu-bar-mode nil)
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
  ;'(twit-pass "")
  ;'(twit-user ""))
+
+(require 'paren) (show-paren-mode t)
 
 ; Configurando o sistema de backup do Emacs
 (setq backup-by-copying t               ; don't clobber symlinks
@@ -222,11 +234,11 @@ exec-to-string command, but it works and seems fast"
   (autoload 'mode-compile "mode-compile"
    "Command to compile current buffer file based on the major mode" t)
   (global-set-key "\C-cc" 'mode-compile)
+  (global-set-key "\C-cr" 'mode-compile)
   (autoload 'mode-compile-kill "mode-compile"
    "Command to kill a compilation launched by `mode-compile'" t)
   (global-set-key "\C-ck" 'mode-compile-kill)
 
-(setq default-truncate-lines t)
 
 ;; Linum
 (require 'linum)

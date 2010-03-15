@@ -5,7 +5,7 @@ Lots of modes and shortcuts to make coding ruby/rails more fun.
 
 ## Install
 
-    git clone git://github.com/nofxx/emacs-rails
+    git clone git://github.com/nofxx/emacx
     cp emacx/.* ~
 
 Or use the install script:
