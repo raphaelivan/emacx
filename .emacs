@@ -192,9 +192,11 @@ exec-to-string command, but it works and seems fast"
 (add-to-list 'load-path "~/.emacs.d/includes/rhtml-mode")
 (require 'rhtml-mode)
 
-
 (setq semantic-load-turn-everything-on t)
 (require 'semantic-load)
+
+(require 'textile-mode)
+(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -284,6 +286,8 @@ exec-to-string command, but it works and seems fast"
    "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+
 ;;
 ;; CSS
 (autoload 'css-mode "css-mode" "Major mode for editing css files." t)
