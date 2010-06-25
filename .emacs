@@ -280,30 +280,28 @@ exec-to-string command, but it works and seems fast"
 (require 'magit)
 (require 'gist)
 
-;;
 ;; Markdown
+;;
 (autoload 'markdown-mode "markdown-mode.el"
    "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 
-;;
 ;; CSS
+;;
 (autoload 'css-mode "css-mode" "Major mode for editing css files." t)
 (setq auto-mode-alist  (cons '(".css$" . css-mode) auto-mode-alist))
 
-;;
 ;; JavaScript
-;; (autoload 'js2-mode "js2" "Major mode for editing javascript scripts." t)
-;; (setq auto-mode-alist  (cons '(".js$" . js2-mode) auto-mode-alist))
-;;(load-file "~/.emacs.d/includes/twit.el")
-(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
+;;
+;;(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
 (add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
+(autoload 'espresso-mode "espresso" nil t)
 
-;;
 ;; Findr!
+;;
 (autoload 'findr "findr" "Find file name." t)
 (define-key global-map [(meta control S)] 'findr)
 
@@ -350,7 +348,6 @@ exec-to-string command, but it works and seems fast"
 
 (smart-tabs-advice c-indent-line c-basic-offset)
 (smart-tabs-advice c-indent-region c-basic-offset)
-;; (smart-tabs-advice js2-indent-line js2-basic-offset)
 
 (smart-tabs-advice vhdl-indent-line vhdl-basic-offset)
 (setq vhdl-indent-tabs-mode t)
