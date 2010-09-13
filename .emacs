@@ -2,6 +2,8 @@
 ;; User
 (setq user-full-name "nofxx")
 (setq user-mail-address "user@user.com")
+(setq visible-bell t)
+
 ;; disable line wrap
 (setq default-truncate-lines t)
 
@@ -376,6 +378,10 @@ exec-to-string command, but it works and seems fast"
 
 (setq auto-mode-alist (append
   '(("\\.cu$" . c++-mode))
+   auto-mode-alist))
+
+(setq auto-mode-alist (append
+  '(("\\.pde$" . c++-mode))
    auto-mode-alist))
 
 (global-set-key "\C-x\C-g" 'magit-status)
