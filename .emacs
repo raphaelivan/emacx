@@ -16,7 +16,7 @@
 (prefer-coding-system 'utf-8)
 ;;(setq c-basic-offset 2)
 ;;(setq tab-width 2)
-(setq indent-tabs-mode t)
+(setq indent-tabs-mode nil)
 (setq-default tab-width 2) ; or any other preferred value
 
 ;;
@@ -186,9 +186,26 @@ exec-to-string command, but it works and seems fast"
 (require 'rinari)
 (setq rinari-tags-file-name "TAGS")
 
-; Interactively Do Things
+; IDO Interactively Do Things
 (require 'ido)
 (ido-mode t)
+(setq ido-enable-flex-matching t)
+(setq ;; Use it for many file dialogs
+      ido-everywhere t
+      ;; Don’t be case sensitive
+      ido-case-fold t)
+      ;; If the file at point exists, use that
+      ;;ido-use-filename-at-point t)
+      ;; Or if it is an URL…
+      ;;ido-use-url-at-point t
+      ;; Even if TAB completes uniquely,
+      ;; still wait for RET
+      ;;ido-confirm-unique-completion t)
+      ;; If the input does not exist,
+      ;; don’t look in unexpected places.
+      ;; I probably want a new file.
+      ;;ido-auto-merge-work-directories-length -3)
+
 
 ;; rhtml mode
 (add-to-list 'load-path "~/.emacs.d/includes/rhtml-mode")
