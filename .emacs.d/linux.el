@@ -9,7 +9,7 @@
 
 ;;
 ;; Erlang
-(setq load-path (cons  "/usr/lib/erlang/lib/tools-2.6.5.1/emacs"
+(setq load-path (cons  "/usr/lib/erlang/lib/tools-2.6.6.1/emacs"
                      load-path))
 (setq erlang-root-dir "/usr/bin/otp")
 (setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
