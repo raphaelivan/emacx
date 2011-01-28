@@ -3,6 +3,7 @@
 (setq user-full-name "nofxx")
 (setq user-mail-address "user@user.com")
 (setq visible-bell t)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; disable line wrap
 (setq default-truncate-lines t)
@@ -63,6 +64,7 @@
 (setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".erb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".god$" . ruby-mode) auto-mode-alist))
+
 
 (add-hook 'ruby-mode-hook
   (lambda()
@@ -319,6 +321,14 @@ exec-to-string command, but it works and seems fast"
 (add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
 (autoload 'espresso-mode "espresso" nil t)
 
+;; Coffee-Script
+;;
+;; http://github.com/defunkt/coffee-mode.git
+(add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
+(require 'coffee-mode)
+(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
+
 ;; Findr!
 ;;
 (autoload 'findr "findr" "Find file name." t)
@@ -411,6 +421,12 @@ exec-to-string command, but it works and seems fast"
 (global-set-key "\M-a" 'magit-status)
 (global-set-key "\M-r" 'query-replace)
 (global-set-key "\M-w" 'ido-switch-buffer)
+
+(global-set-key "\M-1" 'list-buffers)
+(global-set-key "\M-2" 'bookmark-bmenu-list)
+
 (global-set-key [M-return] 'textmate-next-line)
 (global-set-key [C-return] 'textmate-previous-line)
 
+(global-set-key [f9] 'recompile)
+(global-set-key [f11] 'compile)
