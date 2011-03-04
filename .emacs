@@ -5,6 +5,16 @@
 (setq visible-bell t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+
+;; Add color to a shell running in emacs 'M-x shell'
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;; (require 'ansi-color)
+;; (add-hook 'compilation-filter-hook 'ansi-color-for-comint-mode-on)
+;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+
 ;; disable line wrap
 (setq default-truncate-lines t)
 
@@ -298,7 +308,9 @@ exec-to-string command, but it works and seems fast"
 (define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
 ;; GIT
-(require 'magit)
+;;(require 'magit)
+(autoload 'magit-status "magit" nil t)
+
 (require 'gist)
 
 ;; Markdown
@@ -411,14 +423,24 @@ exec-to-string command, but it works and seems fast"
   '(("\\.pde$" . c++-mode))
    auto-mode-alist))
 
-(global-set-key "\C-x\C-g" 'magit-status)
+
+;;
+;; TODO/FIXME/BUG
+;;
+(lambda ()
+  (font-lock-add-keywords nil
+                          '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t))))
+
+;;
+;; Shortcuts
+;;
+(global-set-key "\M-a" 'magit-status)
 (global-set-key "\M-/" 'comment-or-uncomment-region)
 (global-set-key "\M-[" 'indent-region)
 (global-set-key "\M-]" 'indent-according-to-mode)
 (global-set-key "\M-s" 'save-buffer)
 (global-set-key "\M-t" 'ido-find-file)
 (global-set-key "\M-q" 'kill-this-buffer)
-(global-set-key "\M-a" 'magit-status)
 (global-set-key "\M-r" 'query-replace)
 (global-set-key "\M-w" 'ido-switch-buffer)
 
@@ -428,5 +450,7 @@ exec-to-string command, but it works and seems fast"
 (global-set-key [M-return] 'textmate-next-line)
 (global-set-key [C-return] 'textmate-previous-line)
 
+(global-set-key [f5] 'bookmark-set)
+(global-set-key [f8] 'bookmark-jump)
 (global-set-key [f9] 'recompile)
 (global-set-key [f11] 'compile)

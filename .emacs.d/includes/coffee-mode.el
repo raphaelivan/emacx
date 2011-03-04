@@ -78,7 +78,7 @@
   :type 'boolean
   :group 'coffee-mode)
 
-(defcustom coffee-js-mode 'js2-mode
+(defcustom coffee-js-mode 'js-mode
   "The mode to use when viewing compiled JavaScript."
   :type 'string
   :group 'coffee)
@@ -111,6 +111,11 @@ path."
 
 (defcustom coffee-compiled-buffer-name "*coffee-compiled*"
   "The name of the scratch buffer used when compiling CoffeeScript."
+  :type 'string
+  :group 'coffee)
+
+(defcustom coffee-executed-buffer-name "*coffee-run*"
+  "The name of the scratch buffer used when executing CoffeeScript."
   :type 'string
   :group 'coffee)
 
@@ -154,7 +159,26 @@ path."
      (apply 'make-comint "CoffeeREPL"
             coffee-command nil coffee-args-repl)))
 
-  (pop-to-buffer "*CoffeeScript*"))
+  (pop-to-buffer "*CoffeeREPL*"))
+
+(defun coffee-execute-file ()
+  "Executes the file with coffee."
+  (interactive)
+
+  (let ((buffer (get-buffer coffee-executed-buffer-name)))
+    (when buffer
+      (kill-buffer buffer)))
+
+  (save-buffer)
+  (ansi-color-for-comint-mode-on)
+
+  (call-process coffee-command buffer-file-name
+                (get-buffer-create coffee-executed-buffer-name))
+  (ansi-color-for-comint-mode-on)
+  (message "Compiled OK")
+  (if (one-window-p)
+    (switch-to-buffer (get-buffer coffee-executed-buffer-name))
+    (switch-to-buffer-other-window (get-buffer coffee-executed-buffer-name))))
 
 (defun coffee-compile-file ()
   "Compiles and saves the current file to disk. Doesn't open in a buffer.."
@@ -181,8 +205,11 @@ path."
   (call-process-region start end coffee-command nil
                        (get-buffer-create coffee-compiled-buffer-name)
                        nil
-                       "-s" "-p" "--no-wrap")
-  (switch-to-buffer (get-buffer coffee-compiled-buffer-name))
+                       "-s" "-p" "--bare")
+  (if (one-window-p)
+    (switch-to-buffer (get-buffer coffee-compiled-buffer-name))
+    (switch-to-buffer-other-window (get-buffer coffee-compiled-buffer-name)))
+
   (funcall coffee-js-mode)
   (goto-char (point-min)))
 
@@ -213,6 +240,7 @@ path."
 (easy-menu-define coffee-mode-menu coffee-mode-map
   "Menu for CoffeeScript mode"
   '("CoffeeScript"
+    ["Execute File" coffee-execute-file]
     ["Compile File" coffee-compile-file]
     ["Compile Buffer" coffee-compile-buffer]
     ["Compile Region" coffee-compile-region]
@@ -228,6 +256,9 @@ path."
 ;; Define Language Syntax
 ;;
 
+;; String literals
+(defvar coffee-string-regexp "\"\\([^\\]\\|\\\\.\\)*?\"\\|'\\([^\\]\\|\\\\.\\)*?'")
+
 ;; Instance variables (implicit this)
 (defvar coffee-this-regexp "@\\(\\w\\|_\\)*\\|this")
 
@@ -235,7 +266,7 @@ path."
 (defvar coffee-prototype-regexp "\\(\\(\\w\\|\\.\\|_\\| \\|$\\)+?\\)::\\(\\(\\w\\|\\.\\|_\\| \\|$\\)+?\\):")
 
 ;; Assignment
-(defvar coffee-assign-regexp "\\(\\(\\w\\|\\.\\|_\\| \\|$\\)+?\\):")
+(defvar coffee-assign-regexp "\\(\\(\\w\\|\\.\\|_\\| \\|$\\)+?\\)[:=]")
 
 ;; Lambda
 (defvar coffee-lambda-regexp "\\((.+)\\)?\\s *\\(->\\|=>\\)")
@@ -247,14 +278,14 @@ path."
 (defvar coffee-boolean-regexp "\\b\\(true\\|false\\|yes\\|no\\|on\\|off\\|null\\)\\b")
 
 ;; Regular Expressions
-(defvar coffee-regexp-regexp "\\/.+?\\/")
+(defvar coffee-regexp-regexp "\\/\\([^\\]\\|\\\\.\\)+?\\/")
 
 ;; JavaScript Keywords
 (defvar coffee-js-keywords
       '("if" "else" "new" "return" "try" "catch"
         "finally" "throw" "break" "continue" "for" "in" "while"
         "delete" "instanceof" "typeof" "switch" "super" "extends"
-        "class"))
+        "class" "until" "loop"))
 
 ;; Reserved keywords either by JS or CS.
 (defvar coffee-js-reserved
@@ -281,10 +312,12 @@ path."
   ;; *Note*: order below matters. `coffee-keywords-regexp' goes last
   ;; because otherwise the keyword "state" in the function
   ;; "state_entry" would be highlighted.
-  `((,coffee-this-regexp . font-lock-variable-name-face)
+  `((,coffee-string-regexp . font-lock-string-face)
+    (,coffee-this-regexp . font-lock-variable-name-face)
     (,coffee-prototype-regexp . font-lock-variable-name-face)
     (,coffee-assign-regexp . font-lock-type-face)
     (,coffee-regexp-regexp . font-lock-constant-face)
+    (,"\\(->\\|=>\\)" . font-lock-function-name-face)
     (,coffee-boolean-regexp . font-lock-constant-face)
     (,coffee-keywords-regexp . font-lock-keyword-face)))
 
@@ -564,7 +597,8 @@ line? Returns `t' or `nil'. See the README for more details."
   "Major mode for editing CoffeeScript..."
 
   ;; key bindings
-  (define-key coffee-mode-map (kbd "A-r") 'coffee-compile-buffer)
+  (define-key coffee-mode-map (kbd "M-p") 'coffee-execute-file)
+  (define-key coffee-mode-map (kbd "M-l") 'coffee-compile-buffer)
   (define-key coffee-mode-map (kbd "A-R") 'coffee-compile-region)
   (define-key coffee-mode-map (kbd "A-M-r") 'coffee-repl)
   (define-key coffee-mode-map [remap comment-dwim] 'coffee-comment-dwim)
@@ -579,7 +613,6 @@ line? Returns `t' or `nil'. See the README for more details."
   (setq comment-start "#")
 
   ;; single quote strings
-  (modify-syntax-entry ?' "\"" coffee-mode-syntax-table)
   (modify-syntax-entry ?' "\"" coffee-mode-syntax-table)
 
   ;; indentation
