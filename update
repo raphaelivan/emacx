@@ -1,14 +1,22 @@
 #!/usr/bin/env ruby
+require "open-uri"
 
-COMM = system("which curl") ? "curl -O" : "wget"
 TIME = Time.now
+CONF = File.dirname(__FILE__) + "/.emacs.d/"
+
+def download_file(url, name = nil)
+  data = open(url).read
+  fname = name || url.split("/").last
+  p CONF
+  File.open(CONF + "vendor/#{fname}", "w") { |f| f.write(data) }
+end
 
 def update(pkg, url)
   puts "Starting #{pkg} update..."
 
   if url =~ /git:/
   else
-    result = `#{COMM} #{URL} .emacs.d/vendor`
+    result = download_file(url)
   end
   puts "Finished #{pkg} update..."
 end

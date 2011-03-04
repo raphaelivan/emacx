@@ -88,7 +88,7 @@ See the variable `align-rules-list' for more details.")
           (setq symbol-str (substring symbol-str 1))
           (kill-region start end)
           (goto-char start)
-          (insert (format "'%s'" symbol-str))))))
+          (insert (format "\"%s\"" symbol-str))))))
     (goto-char initial-pos)))
 
 (defun run-ruby-in-buffer (cmd buf)

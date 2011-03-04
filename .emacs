@@ -51,10 +51,24 @@
 ;; Color Theme and fonts
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-twilight)
+;;(color-theme-twilight)
+(color-theme-railscasts)
 ;(color-theme-arjen)
 (when (fboundp 'windmove-default-keybindings)
       (windmove-default-keybindings 'meta))
+
+;; Set Toolbar Text
+(when window-system
+  (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+  (tooltip-mode -1)
+  (mouse-wheel-mode t)
+  (blink-cursor-mode -1))
+
+;; Transparently open compressed files
+(auto-compression-mode t)
+
+;; GIT
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
 
 ;;
 ;; YAS
@@ -102,6 +116,7 @@
      (add-hook 'ruby-mode-hook 'inf-ruby-keys)
      (define-key ruby-mode-map (kbd "RET") 'reindent-then-newline-and-indent)
      (define-key ruby-mode-map (kbd "C-M-h") 'backward-kill-word)
+     (define-key ruby-mode-map (kbd "M-/") 'ruby-toggle-string<>simbol)
      (define-key ruby-mode-map (kbd "C-c l") "lambda")))
 
 (global-set-key (kbd "C-h r") 'ri)
@@ -322,6 +337,9 @@ exec-to-string command, but it works and seems fast"
 ;;(add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
 ;;(add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
 ;;(autoload 'espresso-mode "espresso" nil t)
+;;(add-hook 'espresso-mode-hook 'espresso-custom-setup)
+;;(defun espresso-custom-setup ()
+;;)
 
 ;; Coffee-Script
 ;;
@@ -385,12 +403,10 @@ exec-to-string command, but it works and seems fast"
 (setq vhdl-indent-tabs-mode t)
 
 (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
+(moz-minor-mode 1)
 
 ;; (require 'lua-mode)
 
-;;(add-hook 'espresso-mode-hook 'espresso-custom-setup)
-;;(defun espresso-custom-setup ()
-  (moz-minor-mode 1);;)
 
 ;;
 ;; Textmate goods
@@ -426,7 +442,6 @@ exec-to-string command, but it works and seems fast"
 ;; Shortcuts
 ;;
 (global-set-key "\M-a" 'magit-status)
-(global-set-key "\M-/" 'comment-or-uncomment-region)
 (global-set-key "\M-[" 'indent-region)
 (global-set-key "\M-]" 'indent-according-to-mode)
 (global-set-key "\M-s" 'save-buffer)
@@ -434,9 +449,15 @@ exec-to-string command, but it works and seems fast"
 (global-set-key "\M-q" 'kill-this-buffer)
 (global-set-key "\M-r" 'query-replace)
 (global-set-key "\M-w" 'ido-switch-buffer)
+;; Use regex searches by default.
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "\C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
 
-(global-set-key "\M-1" 'list-buffers)
+(global-set-key "\M-1" 'ibuffer)
 (global-set-key "\M-2" 'bookmark-bmenu-list)
+(global-set-key "\M-3" 'eshell)
 
 (global-set-key [M-return] 'textmate-next-line)
 (global-set-key [C-return] 'textmate-previous-line)
