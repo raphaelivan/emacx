@@ -16,6 +16,9 @@
 ;; disable line wrap
 (setq default-truncate-lines t)
 
+;; make emacs use the clipboard
+(setq x-select-enable-clipboard t)
+
 ;; make side by side buffers function the same as the main window
 (setq truncate-partial-width-windows nil)
 
@@ -46,6 +49,23 @@
 (setq linux-p (string-match "linux" (symbol-name system-type)))
 (if macosx-p   (load-file "~/.emacs.d/osx.el"))
 (if linux-p    (load-file "~/.emacs.d/linux.el"))
+
+;; Cosmetics
+;;
+(set-face-background 'vertical-border "white")
+(set-face-foreground 'vertical-border "white")
+
+(eval-after-load 'diff-mode
+  '(progn
+     (set-face-foreground 'diff-added "green4")
+     (set-face-foreground 'diff-removed "red3")))
+
+(eval-after-load 'magit
+  '(progn
+     (set-face-foreground 'magit-diff-add "green3")
+     (set-face-foreground 'magit-diff-del "red3")
+     (when (not window-system)
+       (set-face-background 'magit-item-highlight "white"))))
 
 ;;
 ;; Color Theme and fonts
