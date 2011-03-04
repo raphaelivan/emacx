@@ -3,17 +3,15 @@
 (setq user-full-name "nofxx")
 (setq user-mail-address "user@user.com")
 (setq visible-bell t)
+(prefer-coding-system 'utf-8)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-
 ;; Add color to a shell running in emacs 'M-x shell'
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
 ;; (require 'ansi-color)
 ;; (add-hook 'compilation-filter-hook 'ansi-color-for-comint-mode-on)
 ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 ;; disable line wrap
 (setq default-truncate-lines t)
@@ -21,10 +19,7 @@
 ;; make side by side buffers function the same as the main window
 (setq truncate-partial-width-windows nil)
 
-;; Add F12 to toggle line wrap
-(global-set-key [f12] 'toggle-truncate-lines)
-
-(prefer-coding-system 'utf-8)
+;; Tabs
 ;;(setq c-basic-offset 2)
 ;;(setq tab-width 2)
 (setq indent-tabs-mode nil)
@@ -34,15 +29,15 @@
 ;; Load Path
 (setq load-path
         (append (list nil "~/.emacs.d"
-                         "~/.emacs.d/includes"
-                         "~/.emacs.d/includes/color-theme"
-                         "~/.emacs.d/includes/rinari"
-                         "~/.emacs.d/includes/rinari/rhtml"
-                         "~/.emacs.d/includes/emacs-rails"
-                         "~/.emacs.d/includes/eieio"
-                         "~/.emacs.d/includes/semantic"
-                         "~/.emacs.d/includes/speedbar"
-                         "~/.emacs.d/includes/jump.el")
+                         "~/.emacs.d/vendor"
+                         "~/.emacs.d/vendor/color-theme"
+                         "~/.emacs.d/vendor/rinari"
+                         "~/.emacs.d/vendor/rinari/rhtml"
+                         "~/.emacs.d/vendor/emacs-rails"
+                         "~/.emacs.d/vendor/eieio"
+                         "~/.emacs.d/vendor/semantic"
+                         "~/.emacs.d/vendor/speedbar"
+                         "~/.emacs.d/vendor/jump.el")
                          load-path))
 
 ;;
@@ -74,7 +69,11 @@
 (setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".erb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".god$" . ruby-mode) auto-mode-alist))
-
+(setq auto-mode-alist  (cons '("Gemfile$" . ruby-mode) auto-mode-alist))
+;; Rake files are ruby, too, as are gemspecs.
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 
 (add-hook 'ruby-mode-hook
   (lambda()
@@ -107,10 +106,6 @@
 
 (global-set-key (kbd "C-h r") 'ri)
 
-;; Rake files are ruby, too, as are gemspecs.
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 
 ;; We never want to edit Rubinius bytecode
 (add-to-list 'completion-ignored-extensions ".rbc")
@@ -178,11 +173,6 @@ exec-to-string command, but it works and seems fast"
 ;;                    (flymake-mode t))))))
 
 
-;; TODO: set up ri
-;; TODO: electric
-
-(provide 'starter-kit-ruby)
-;; starter-kit-ruby.el ends here
 
 ; YAML Mode
 (autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
@@ -220,8 +210,8 @@ exec-to-string command, but it works and seems fast"
 
 
 ;; rhtml mode
-(add-to-list 'load-path "~/.emacs.d/includes/rhtml-mode")
-(require 'rhtml-mode)
+;;(add-to-list 'load-path "~/.emacs.d/vendor/rhtml-mode")
+;;(require 'rhtml-mode)
 
 (setq semantic-load-turn-everything-on t)
 (require 'semantic-load)
@@ -329,15 +319,16 @@ exec-to-string command, but it works and seems fast"
 ;; JavaScript
 ;;
 ;;(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
-(add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
-(add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
-(autoload 'espresso-mode "espresso" nil t)
+;;(add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
+;;(add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
+;;(autoload 'espresso-mode "espresso" nil t)
 
 ;; Coffee-Script
 ;;
 ;; http://github.com/defunkt/coffee-mode.git
-(add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
-(require 'coffee-mode)
+(autoload 'coffee-mode "coffee-mode" "Major mode for editing coffee files." t)
+;;(add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
+;;(require 'coffee-mode)
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 
@@ -395,7 +386,7 @@ exec-to-string command, but it works and seems fast"
 
 (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
 
-(require 'lua-mode)
+;; (require 'lua-mode)
 
 ;;(add-hook 'espresso-mode-hook 'espresso-custom-setup)
 ;;(defun espresso-custom-setup ()
@@ -454,3 +445,5 @@ exec-to-string command, but it works and seems fast"
 (global-set-key [f8] 'bookmark-jump)
 (global-set-key [f9] 'recompile)
 (global-set-key [f11] 'compile)
+;; Add F12 to toggle line wrap
+(global-set-key [f12] 'toggle-truncate-lines)

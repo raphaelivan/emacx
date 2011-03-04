@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+COMM = system("which curl") ? "curl -O" : "wget"
+TIME = Time.now
+
+def update(pkg, url)
+  puts "Starting #{pkg} update..."
+
+  if url =~ /git:/
+  else
+    result = `#{COMM} #{URL} .emacs.d/vendor`
+  end
+  puts "Finished #{pkg} update..."
+end
+
+
+
+update "CoffeeScript", "https://github.com/nofxx/coffee-mode/raw/master/coffee-mode.el"
