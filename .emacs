@@ -1,3 +1,10 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;;
+;; Emacs for fun and profit !!
+;;
+;;
 ;;
 ;; User
 (setq user-full-name "nofxx")
@@ -50,7 +57,12 @@
 (if macosx-p   (load-file "~/.emacs.d/osx.el"))
 (if linux-p    (load-file "~/.emacs.d/linux.el"))
 
-;; Cosmetics
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;;
+;;   Cosmetics
+;;
 ;;
 (set-face-background 'vertical-border "white")
 (set-face-foreground 'vertical-border "white")
@@ -87,9 +99,6 @@
 ;; Transparently open compressed files
 (auto-compression-mode t)
 
-;; GIT
-(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
-
 ;;
 ;; YAS
 (require 'yasnippet)
@@ -97,8 +106,13 @@
 (yas/load-directory "~/.emacs.d/snippets")
 (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Ruby
+;;
+;;
+;;   Ruby
+;;
+;;
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".erb$" . ruby-mode) auto-mode-alist))
@@ -213,8 +227,12 @@ exec-to-string command, but it works and seems fast"
 (autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
 (setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Emacs-Rails
+;;
+;;    Emacs-Rails
+;;
+;;
 (load "snippet")
 (load "find-recursive")
 (require 'rails)
@@ -223,7 +241,12 @@ exec-to-string command, but it works and seems fast"
 (require 'rinari)
 (setq rinari-tags-file-name "TAGS")
 
-; IDO Interactively Do Things
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;;   IDO Interactively Do Things
+;;
+;;
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
@@ -303,15 +326,6 @@ exec-to-string command, but it works and seems fast"
 (global-linum-mode)
 
 ;;
-;; HAML & SASS
-(require 'haml-mode nil 't)
-(add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
-(require 'sass-mode)
-;;(eval-after-load 'haml-mode
-;;(if (functionp 'whitespace-mode)
-;;   (add-hook 'haml-mode-hook 'whitespace-mode)))
-
-;;
 ;; Rspec & Friends
 (require 'rspec-mode)
 (add-to-list 'load-path "~/.emacs.d/snippets/feature-mode")
@@ -331,10 +345,14 @@ exec-to-string command, but it works and seems fast"
 ; add to ruby mode hook:
 (define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;;
 ;; GIT
-;;(require 'magit)
-(autoload 'magit-status "magit" nil t)
-
+;;
+;;
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
 (require 'gist)
 
 ;; Markdown
@@ -345,21 +363,29 @@ exec-to-string command, but it works and seems fast"
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 
-;; CSS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;; HTML/CSS
 ;;
 (autoload 'css-mode "css-mode" "Major mode for editing css files." t)
 (setq auto-mode-alist  (cons '(".css$" . css-mode) auto-mode-alist))
+;;
+;; HAML & SASS
+(require 'haml-mode nil 't)
+(add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+(require 'sass-mode)
+;;(eval-after-load 'haml-mode
+;;(if (functionp 'whitespace-mode)
+;;   (add-hook 'haml-mode-hook 'whitespace-mode)))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;;
 ;; JavaScript
 ;;
-;;(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
-;;(add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
-;;(add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
-;;(autoload 'espresso-mode "espresso" nil t)
-;;(add-hook 'espresso-mode-hook 'espresso-custom-setup)
-;;(defun espresso-custom-setup ()
-;;)
-
 ;; Coffee-Script
 ;;
 ;; http://github.com/defunkt/coffee-mode.git
@@ -369,6 +395,10 @@ exec-to-string command, but it works and seems fast"
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
 ;; Findr!
 ;;
 (autoload 'findr "findr" "Find file name." t)
@@ -426,7 +456,9 @@ exec-to-string command, but it works and seems fast"
 
 ;; (require 'lua-mode)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
 ;;
 ;; Textmate goods
 ;; from http://github.com/topfunky/emacs-starter-kit
@@ -457,8 +489,13 @@ exec-to-string command, but it works and seems fast"
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Shortcuts
+;;
+;;
+;;   Shortcuts
+;;
+;;
 ;;
 (global-set-key "\M-a" 'magit-status)
 (global-set-key "\M-[" 'indent-region)

@@ -25,6 +25,8 @@ update "Ruby Mode", "http://redmine.ruby-lang.org/projects/ruby-19/repository/ra
 update "Ruby Style", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/ruby-style.el"
 update "Ruby Electric", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/ruby-electric.el"
 update "Ruby Rdoc", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/rdoc-mode.el"
+update "Ruby Inf", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/inf-ruby.el"
+update "Ruby db3x", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/rubydb3x.el"
 update "CoffeeScript", "https://github.com/nofxx/coffee-mode/raw/master/coffee-mode.el"
 update "Rspec Mode", "https://github.com/pezra/rspec-mode/raw/master/rspec-mode.el"
 update "HAML Mode", "https://github.com/nex3/haml-mode/raw/master/haml-mode.el"
