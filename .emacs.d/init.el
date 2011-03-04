@@ -41,21 +41,23 @@
         (append (list nil "~/.emacs.d"
                          "~/.emacs.d/vendor"
                          "~/.emacs.d/vendor/color-theme"
-                         "~/.emacs.d/vendor/rinari"
-                         "~/.emacs.d/vendor/rinari/rhtml"
-                         "~/.emacs.d/vendor/emacs-rails"
-                         "~/.emacs.d/vendor/eieio"
-                         "~/.emacs.d/vendor/semantic"
-                         "~/.emacs.d/vendor/speedbar"
-                         "~/.emacs.d/vendor/jump.el")
+                         ;; "~/.emacs.d/vendor/rinari"
+                         ;; "~/.emacs.d/vendor/rinari/rhtml"
+                         "~/.emacs.d/vendor/emacs-rails")
+                         ;;"~/.emacs.d/vendor/eieio"
+                         ;;"~/.emacs.d/vendor/semantic"
+                         ;;"~/.emacs.d/vendor/speedbar")
                          load-path))
 
+(setq dotfiles-dir (file-name-directory
+                    (or (buffer-file-name) load-file-name)))
+(add-to-list 'load-path dotfiles-dir)
 ;;
 ;; SO Detection
 (setq macosx-p (string-match "darwin" (symbol-name system-type)))
 (setq linux-p (string-match "linux" (symbol-name system-type)))
-(if macosx-p   (load-file "~/.emacs.d/osx.el"))
-(if linux-p    (load-file "~/.emacs.d/linux.el"))
+(if macosx-p   (require 'osx))
+(if linux-p    (require 'linux))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -85,8 +87,9 @@
 (color-theme-initialize)
 ;;(color-theme-twilight)
 ;;(color-theme-railscasts)
-(color-theme-sunburst)
-;(color-theme-arjen)
+;;(color-theme-sunburst)
+(color-theme-fxx)
+
 (when (fboundp 'windmove-default-keybindings)
       (windmove-default-keybindings 'meta))
 
@@ -102,10 +105,10 @@
 
 ;;
 ;; YAS
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
-(setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
+;; (require 'yasnippet)
+;; (yas/initialize)
+;; (yas/load-directory "~/.emacs.d/snippets")
+;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -234,13 +237,13 @@ exec-to-string command, but it works and seems fast"
 ;;    Emacs-Rails
 ;;
 ;;
-(load "snippet")
+;;(load "snippet")
 (load "find-recursive")
 (require 'rails)
 
 ; Rinari (RAILS) Configurações
-(require 'rinari)
-(setq rinari-tags-file-name "TAGS")
+;; (require 'rinari)
+;; (setq rinari-tags-file-name "TAGS")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -272,11 +275,12 @@ exec-to-string command, but it works and seems fast"
 ;;(add-to-list 'load-path "~/.emacs.d/vendor/rhtml-mode")
 ;;(require 'rhtml-mode)
 
-(setq semantic-load-turn-everything-on t)
-(require 'semantic-load)
+;; (setq semantic-load-turn-everything-on t)
+;; (require 'semantic-load)
 
-(require 'textile-mode)
-(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+;; TODO AUTOLOAD
+;; (require 'textile-mode)
+;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -328,8 +332,8 @@ exec-to-string command, but it works and seems fast"
 
 ;;
 ;; Rspec & Friends
-(require 'rspec-mode)
-(add-to-list 'load-path "~/.emacs.d/snippets/feature-mode")
+;; (require 'rspec-mode)
+;; (add-to-list 'load-path "~/.emacs.d/snippets/feature-mode")
 (autoload 'feature-mode "feature-mode" "Mode for editing cucumber files" t)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
@@ -370,13 +374,13 @@ exec-to-string command, but it works and seems fast"
 ;;
 ;; HTML/CSS
 ;;
-(autoload 'css-mode "css-mode" "Major mode for editing css files." t)
-(setq auto-mode-alist  (cons '(".css$" . css-mode) auto-mode-alist))
+;; (autoload 'css-mode "css-mode" "Major mode for editing css files." t)
+;; (setq auto-mode-alist  (cons '(".css$" . css-mode) auto-mode-alist))
 ;;
 ;; HAML & SASS
-(require 'haml-mode nil 't)
-(add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
-(require 'sass-mode)
+;; (require 'haml-mode nil 't)
+;; (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+;; (require 'sass-mode)
 ;;(eval-after-load 'haml-mode
 ;;(if (functionp 'whitespace-mode)
 ;;   (add-hook 'haml-mode-hook 'whitespace-mode)))
@@ -526,3 +530,16 @@ exec-to-string command, but it works and seems fast"
 (global-set-key [f11] 'compile)
 ;; Add F12 to toggle line wrap
 (global-set-key [f12] 'toggle-truncate-lines)
+
+
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (package-initialize))
+
+

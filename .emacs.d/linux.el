@@ -25,3 +25,5 @@
                   (interactive)
                   (comint-send-string (inferior-moz-process)
                                       "BrowserReload();")))
+
+(provide 'linux)
