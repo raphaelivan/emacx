@@ -46,7 +46,7 @@
 
 ;;; Code:
 
-(defconst ruby-mode-revision "$Revision: 28106 $"
+(defconst ruby-mode-revision "$Revision: 30825 $"
   "Ruby mode revision string.")
 
 (defconst ruby-mode-version
@@ -173,7 +173,6 @@
   (define-key ruby-mode-map "\C-c\C-e" 'ruby-insert-end)
   (define-key ruby-mode-map "\C-j" 'ruby-reindent-then-newline-and-indent)
   (define-key ruby-mode-map "\C-m" 'newline)
-  (define-key ruby-mode-map "\C-c\C-c" 'comment-region)
   (define-key ruby-mode-map "\C-c\C-u" 'uncomment-region))
 
 (defvar ruby-mode-syntax-table nil
@@ -297,6 +296,7 @@ Also ignores spaces after parenthesis when 'space."
 
 (defun ruby-mode-variables ()
   (set-syntax-table ruby-mode-syntax-table)
+  (setq show-trailing-whitespace t)
   (setq local-abbrev-table ruby-mode-abbrev-table)
   (make-local-variable 'indent-line-function)
   (setq indent-line-function 'ruby-indent-line)
@@ -438,6 +438,12 @@ The variable ruby-indent-level controls the amount of indentation.
           ((and (eq c ?:) (or (not b) (eq (char-syntax b) ? ))))
           ((eq c ?\\) (eq b ??)))))
 
+(defun ruby-singleton-class-p ()
+  (save-excursion
+    (forward-word -1)
+    (and (or (bolp) (not (eq (char-before (point)) ?_)))
+	      (looking-at "class\\s *<<"))))
+
 (defun ruby-expr-beg (&optional option)
   (save-excursion
     (store-match-data nil)
@@ -451,7 +457,8 @@ The variable ruby-indent-level controls the amount of indentation.
                (or (eq (char-syntax (char-before (point))) ?w)
                    (ruby-special-char-p))))
         nil)
-       ((and (eq option 'heredoc) (< space 0)) t)
+       ((and (eq option 'heredoc) (< space 0))
+	(not (progn (goto-char start) (ruby-singleton-class-p))))
        ((or (looking-at ruby-operator-re)
             (looking-at "[\\[({,;]")
             (and (looking-at "[!?]")
@@ -467,7 +474,7 @@ The variable ruby-indent-level controls the amount of indentation.
                                         ruby-block-mid-keywords)
                                 'words))
                    (goto-char (match-end 0))
-                   (not (looking-at "\\s_")))
+                   (not (looking-at "\\s_\\|[!?:]")))
                   ((eq option 'expr-qstr)
                    (looking-at "[a-zA-Z][a-zA-z0-9_]* +%[^ \t]"))
                   ((eq option 'expr-re)
@@ -524,7 +531,7 @@ The variable ruby-indent-level controls the amount of indentation.
          (t
           (setq in-string (point))
           (goto-char end))))
-       ((looking-at "/=") 
+       ((looking-at "/=")
         (goto-char pnt))
        ((looking-at "/")
         (cond
@@ -639,6 +646,7 @@ The variable ruby-indent-level controls the amount of indentation.
          (not (eq ?_ w))
          (not (eq ?! w))
          (not (eq ?? w))
+         (not (eq ?: w))
          (skip-chars-forward " \t")
          (goto-char (match-beginning 0))
          (or (not (looking-at ruby-modifier-re))
@@ -779,7 +787,7 @@ The variable ruby-indent-level controls the amount of indentation.
           (setq indent (ruby-indent-size (current-column) (nth 2 state))))
          (t
           (setq indent (+ (current-column) ruby-indent-level)))))
-       
+
        ((and (nth 2 state) (< (nth 2 state) 0)) ; in negative nest
         (setq indent (ruby-indent-size (current-column) (nth 2 state)))))
       (when indent
@@ -973,6 +981,7 @@ An end of a defun is found by moving forward from the beginning of one."
       (condition-case nil
           (while (> i 0)
             (skip-syntax-forward " ")
+            (if (looking-at ",\\s *") (goto-char (match-end 0)))
             (cond ((looking-at "\\?\\(\\\\[CM]-\\)*\\\\?\\S ")
                    (goto-char (match-end 0)))
                   ((progn
@@ -1115,7 +1124,7 @@ balanced expression is found."
                (concat "^[ \t]*\\(def\\|class\\|module\\)[ \t]+"
                        "\\("
                        ;; \\. and :: for class method
-                        "\\([A-Za-z_]" ruby-symbol-re "*\\|\\.\\|::" "\\)" 
+                        "\\([A-Za-z_]" ruby-symbol-re "*\\|\\.\\|::" "\\)"
                         "+\\)")
                nil t)
               (progn
@@ -1184,7 +1193,7 @@ balanced expression is found."
           ;; ?' ?" ?` are ascii codes
           ("\\(^\\|[^\\\\]\\)\\(\\\\\\\\\\)*[?$]\\([#\"'`]\\)" 3 (1 . nil))
           ;; regexps
-          ("\\(^\\|[=(,~?:;<>]\\|\\(^\\|\\s \\)\\(if\\|elsif\\|unless\\|while\\|until\\|when\\|and\\|or\\|&&\\|||\\)\\|g?sub!?\\|scan\\|split!?\\)\\s *\\(/\\)[^/\n\\\\]*\\(\\\\.[^/\n\\\\]*\\)*\\(/\\)"
+          ("\\(^\\|[[=(,~?:;<>]\\|\\(^\\|\\s \\)\\(if\\|elsif\\|unless\\|while\\|until\\|when\\|and\\|or\\|&&\\|||\\)\\|g?sub!?\\|scan\\|split!?\\)\\s *\\(/\\)[^/\n\\\\]*\\(\\\\.[^/\n\\\\]*\\)*\\(/\\)"
            (4 (7 . ?/))
            (6 (7 . ?/)))
           ("^\\(=\\)begin\\(\\s \\|$\\)" 1 (7 . nil))
@@ -1227,7 +1236,8 @@ balanced expression is found."
       (let ((old-point (point)) (case-fold-search nil))
         (beginning-of-line)
         (catch 'found-beg
-          (while (re-search-backward ruby-here-doc-beg-re nil t)
+          (while (and (re-search-backward ruby-here-doc-beg-re nil t)
+		      (not (ruby-singleton-class-p)))
             (if (not (or (ruby-in-ppss-context-p 'anything)
                          (ruby-here-doc-find-end old-point)))
                 (throw 'found-beg t)))))))
@@ -1392,6 +1402,7 @@ buffer position `limit' or the end of the buffer."
      ;; symbols
      '("\\(^\\|[^:]\\)\\(:\\([-+~]@?\\|[/%&|^`]\\|\\*\\*?\\|<\\(<\\|=>?\\)?\\|>[>=]?\\|===?\\|=~\\|![~=]?\\|\\[\\]=?\\|\\(\\w\\|_\\)+\\([!?=]\\|\\b_*\\)\\|#{[^}\n\\\\]*\\(\\\\.[^}\n\\\\]*\\)*}\\)\\)"
        2 font-lock-reference-face)
+     '("\\(^\\s *\\|[\[\{\(,]\\s *\\|\\sw\\s +\\)\\(\\(\\sw\\|_\\)+\\):[^:]" 2 font-lock-reference-face)
      ;; expression expansion
      '("#\\({[^}\n\\\\]*\\(\\\\.[^}\n\\\\]*\\)*}\\|\\(\\$\\|@\\|@@\\)\\(\\w\\|_\\)+\\)"
        0 font-lock-variable-name-face t)
