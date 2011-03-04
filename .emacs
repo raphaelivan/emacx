@@ -84,7 +84,8 @@
 (require 'color-theme)
 (color-theme-initialize)
 ;;(color-theme-twilight)
-(color-theme-railscasts)
+;;(color-theme-railscasts)
+(color-theme-sunburst)
 ;(color-theme-arjen)
 (when (fboundp 'windmove-default-keybindings)
       (windmove-default-keybindings 'meta))
@@ -352,6 +353,7 @@ exec-to-string command, but it works and seems fast"
 ;; GIT
 ;;
 ;;
+(require 'magit)
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
 (require 'gist)
 
