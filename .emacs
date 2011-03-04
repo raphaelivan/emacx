@@ -314,7 +314,6 @@ exec-to-string command, but it works and seems fast"
 ;;
 ;; Rspec & Friends
 (require 'rspec-mode)
-(require 'cucumber-mode)
 (add-to-list 'load-path "~/.emacs.d/snippets/feature-mode")
 (autoload 'feature-mode "feature-mode" "Mode for editing cucumber files" t)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))

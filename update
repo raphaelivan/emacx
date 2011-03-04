@@ -21,7 +21,10 @@ def update(pkg, url)
 end
 
 
-
+update "Ruby Mode", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/ruby-mode.el"
+update "Ruby Style", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/ruby-style.el"
+update "Ruby Electric", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/ruby-electric.el"
+update "Ruby Rdoc", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/rdoc-mode.el"
 update "CoffeeScript", "https://github.com/nofxx/coffee-mode/raw/master/coffee-mode.el"
 update "Rspec Mode", "https://github.com/pezra/rspec-mode/raw/master/rspec-mode.el"
 update "HAML Mode", "https://github.com/nex3/haml-mode/raw/master/haml-mode.el"
@@ -29,4 +32,8 @@ update "SASS Mode", "https://github.com/nex3/sass-mode/raw/master/sass-mode.el"
 update "Linum.el", "http://stud1.tuwien.ac.at/~e0225855/linum/linum.el"
 update "Textile", "https://github.com/emacsmirror/textile-mode/raw/master/textile-mode.el"
 update "Markdown", "https://github.com/defunkt/markdown-mode/raw/master/markdown-mode.el"
-# update "CSS Mode", "http://www.emacswiki.org/emacs/download/css-mode.el"
+update "Recursive Find", "https://github.com/nealford/emacs/raw/master/find-recursive.el"
+update "Lua", "http://luaforge.net/frs/download.php/4628/lua-mode.el"
+#update "CSS Mode", "http://www.emacswiki.org/emacs/download/css-mode.el"
+update "Gist", "https://github.com/defunkt/gist.el/raw/master/gist.el"
+update "Cucumber", "https://github.com/michaelklishin/cucumber.el/raw/master/feature-mode.el"
