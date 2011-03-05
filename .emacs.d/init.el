@@ -41,7 +41,7 @@
         (append (list nil "~/.emacs.d"
                          "~/.emacs.d/vendor"
                          "~/.emacs.d/auto-complete"
-                         "~/.emacs.d/vendor/color-theme"
+                         "~/.emacs.d/color-theme"
                          "~/.emacs.d/vendor/emacs-rails")
                          load-path))
 
