@@ -4,28 +4,18 @@
 
 (defvar my-packages (list 'idle-highlight
                                    'ruby-mode
+                                   'yaml-mode
                                    'inf-ruby
-                                   ;;'js2-mode
+                                   'haml-mode
+                                   'sass-mode
+                                   'jump
+                                   'findr
+                                   'rinari
+                                   'rspec-mode
+                                   'smart-tab
+                                   'yasnippet-bundle
+                                   'nxml
                                    'css-mode
-                               ;; To submit:
-;;;                                "magit"
-;;;                                "paredit"
-;;;                                "clojure-mode"
-;;;                                "yaml"
-;;;                                "haml"
-;;;                                "sass"
-;;;                                "cheat"
-;;;                                "gist"
-;;;                                "html-fontify"
-;;;                                "color-theme"
-;;;                                "color-theme-zenburn"
-;;;                                "color-theme-vivid-chalk"
-                               ;; Complicated ones:
-;;;                                "nxhtml"
-;;;                                "rinari"
-;;;                                "jabber"
-;;;                                "slime"
-;;;                                "swank-clojure"
                                    )
   "Libraries that should be installed by default.")
 
