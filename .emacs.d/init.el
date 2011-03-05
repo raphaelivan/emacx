@@ -40,13 +40,9 @@
 (setq load-path
         (append (list nil "~/.emacs.d"
                          "~/.emacs.d/vendor"
+                         "~/.emacs.d/auto-complete"
                          "~/.emacs.d/vendor/color-theme"
-                         ;; "~/.emacs.d/vendor/rinari"
-                         ;; "~/.emacs.d/vendor/rinari/rhtml"
                          "~/.emacs.d/vendor/emacs-rails")
-                         ;;"~/.emacs.d/vendor/eieio"
-                         ;;"~/.emacs.d/vendor/semantic"
-                         ;;"~/.emacs.d/vendor/speedbar")
                          load-path))
 
 (setq dotfiles-dir (file-name-directory
@@ -58,6 +54,7 @@
 (setq linux-p (string-match "linux" (symbol-name system-type)))
 (if macosx-p   (require 'osx))
 (if linux-p    (require 'linux))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -103,7 +100,58 @@
 ;; Transparently open compressed files
 (auto-compression-mode t)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;;
+;;
+;;   Requires!
+;;
+;;
+(require 'paren) (show-paren-mode t)
+
+;; Autocomplete
+;; http://cx4a.org/software/auto-complete/
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
+(ac-config-default)
+
+;; Linum
+(require 'linum)
+(global-linum-mode)
+
+;; GIT
+;;
+(require 'magit)
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
+;;(require 'gist)
+
+;; Markdown
+;;
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.md" . markdown-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+; YAML Mode
+(autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
+(setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
+
+;; TODO AUTOLOAD
+;; (require 'textile-mode)
+;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+;; (require 'lua-mode)
+;;
+;; ;; Tabbar
+;; (require 'tabbar)
+;; (tabbar-mode)
+;;   (autoload 'mode-compile "mode-compile"
+;;    "Command to compile current buffer file based on the major mode" t)
+;;   (global-set-key "\C-cc" 'mode-compile)
+;;   (global-set-key "\C-cr" 'mode-compile)
+;;   (autoload 'mode-compile-kill "mode-compile"
+;;    "Command to kill a compilation launched by `mode-compile'" t)
+;;   (global-set-key "\C-ck" 'mode-compile-kill)
 ;; YAS
 ;; (require 'yasnippet)
 ;; (yas/initialize)
@@ -227,9 +275,6 @@ exec-to-string command, but it works and seems fast"
 
 
 
-; YAML Mode
-(autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
-(setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -237,7 +282,6 @@ exec-to-string command, but it works and seems fast"
 ;;    Emacs-Rails
 ;;
 ;;
-;;(load "snippet")
 (load "find-recursive")
 (require 'rails)
 
@@ -270,18 +314,6 @@ exec-to-string command, but it works and seems fast"
       ;; I probably want a new file.
       ;;ido-auto-merge-work-directories-length -3)
 
-
-;; rhtml mode
-;;(add-to-list 'load-path "~/.emacs.d/vendor/rhtml-mode")
-;;(require 'rhtml-mode)
-
-;; (setq semantic-load-turn-everything-on t)
-;; (require 'semantic-load)
-
-;; TODO AUTOLOAD
-;; (require 'textile-mode)
-;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
-
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -299,8 +331,6 @@ exec-to-string command, but it works and seems fast"
  ;'(twit-pass "")
  ;'(twit-user ""))
 
-(require 'paren) (show-paren-mode t)
-
 ; Configurando o sistema de backup do Emacs
 (setq backup-by-copying t               ; don't clobber symlinks
       backup-directory-alist
@@ -314,21 +344,6 @@ exec-to-string command, but it works and seems fast"
              (make-variable-buffer-local 'yas/trigger-key)
              (setq yas/trigger-key [tab])))
 
-;; Tabbar
-(require 'tabbar)
-(tabbar-mode)
-  (autoload 'mode-compile "mode-compile"
-   "Command to compile current buffer file based on the major mode" t)
-  (global-set-key "\C-cc" 'mode-compile)
-  (global-set-key "\C-cr" 'mode-compile)
-  (autoload 'mode-compile-kill "mode-compile"
-   "Command to kill a compilation launched by `mode-compile'" t)
-  (global-set-key "\C-ck" 'mode-compile-kill)
-
-
-;; Linum
-(require 'linum)
-(global-linum-mode)
 
 ;;
 ;; Rspec & Friends
@@ -350,47 +365,9 @@ exec-to-string command, but it works and seems fast"
 ; add to ruby mode hook:
 (define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;
-;;
-;; GIT
-;;
-;;
-(require 'magit)
-(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
-(require 'gist)
-
-;; Markdown
-;;
-(autoload 'markdown-mode "markdown-mode.el"
-   "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-   (cons '("\\.md" . markdown-mode) auto-mode-alist))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;
-;; HTML/CSS
-;;
-;; (autoload 'css-mode "css-mode" "Major mode for editing css files." t)
-;; (setq auto-mode-alist  (cons '(".css$" . css-mode) auto-mode-alist))
-;;
-;; HAML & SASS
-;; (require 'haml-mode nil 't)
-;; (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
-;; (require 'sass-mode)
-;;(eval-after-load 'haml-mode
-;;(if (functionp 'whitespace-mode)
-;;   (add-hook 'haml-mode-hook 'whitespace-mode)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;
-;;
-;; JavaScript
 ;;
 ;; Coffee-Script
 ;;
@@ -460,7 +437,6 @@ exec-to-string command, but it works and seems fast"
 (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
 (moz-minor-mode 1)
 
-;; (require 'lua-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -468,6 +444,7 @@ exec-to-string command, but it works and seems fast"
 ;;
 ;; Textmate goods
 ;; from http://github.com/topfunky/emacs-starter-kit
+;;
 (defun textmate-next-line ()
   (interactive)
   (end-of-line)
