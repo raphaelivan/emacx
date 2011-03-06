@@ -3,20 +3,21 @@
 ;; Part of the Emacs Starter Kit
 
 (defvar my-packages (list 'idle-highlight
-                                   'ruby-mode
-                                   'yaml-mode
-                                   'inf-ruby
-                                   'haml-mode
-                                   'sass-mode
-                                   'jump
-                                   'findr
-                                   'rinari
-                                   'rspec-mode
-                                   'smart-tab
-                                   'yasnippet-bundle
-                                   'nxml
-                                   'css-mode
-                                   )
+                          'haml-mode
+                          'sass-mode
+                          'ruby-mode
+                          'yaml-mode
+                          'rspec-mode
+                          'inf-ruby
+													'gist
+                          'nxml
+                          'jump
+                          'findr
+                          'rinari
+                          'css-mode
+                          'smart-tab
+                          'yasnippet-bundle
+                          )
   "Libraries that should be installed by default.")
 
 (defun my-elpa-install ()

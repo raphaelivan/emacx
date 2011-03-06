@@ -108,6 +108,20 @@
 ;;   Requires!
 ;;
 ;;
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (package-initialize))
+
+;;
+;; Perspective
+(persp-mode)
+
 (require 'paren) (show-paren-mode t)
 
 ;; Autocomplete
@@ -343,9 +357,10 @@ exec-to-string command, but it works and seems fast"
  '(cua-mode t nil (cua-base))
  '(display-time-mode t)
  '(flymake-js-off t)
+ '(fset (quote yes-or-no-p) t)
  '(inhibit-startup-screen t)
- '(fset 'yes-or-no-p 'y-or-n-p)
  '(menu-bar-mode nil)
+ '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
@@ -416,10 +431,10 @@ exec-to-string command, but it works and seems fast"
 
 ;(define-key shell-mode-map "\C-c\C-a" 'autotest-switch)
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  )
 
 (setq cua-auto-tabify-rectangles nil)
@@ -509,15 +524,17 @@ exec-to-string command, but it works and seems fast"
 (global-set-key "\M-q" 'kill-this-buffer)
 (global-set-key "\M-r" 'query-replace)
 (global-set-key "\M-w" 'ido-switch-buffer)
+(global-set-key "\M-W" 'bookmark-jump)
+
 ;; Use regex searches by default.
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
 
 (global-set-key "\M-1" 'ibuffer)
 (global-set-key "\M-2" 'bookmark-bmenu-list)
 (global-set-key "\M-3" 'eshell)
+(global-set-key "\M-4" 'persp-switch)
 
 (global-set-key [M-return] 'textmate-next-line)
 (global-set-key [C-return] 'textmate-previous-line)
@@ -528,16 +545,5 @@ exec-to-string command, but it works and seems fast"
 (global-set-key [f11] 'compile)
 ;; Add F12 to toggle line wrap
 (global-set-key [f12] 'toggle-truncate-lines)
-
-
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))
 
 

@@ -3,6 +3,8 @@
 ;; Defines a colour scheme resembling that of the original TextMate Fxx colour theme.
 ;; To use add the following to your .emacs file (requires the color-theme package):
 ;;
+;; http://wiki.nofxx.com/_detail/x:xxx2tmscreen.png
+;;
 ;; (require 'color-theme)
 ;; (color-theme-initialize)
 ;; (load-file "~/.emacs.d/fxx-emacs/color-theme-fxx.el")
@@ -14,12 +16,15 @@
 ;; (eg. dired, HTML, etc). Please feel free to customize further and send in any improvements,
 ;; patches most welcome.
 ;;
+;; Based on the twilight theme by:
 ;; MIT License Copyright (c) 2008 Marcus Crafter <crafterm@redartisan.com>
-;; Credits due to the excellent TextMate Fxx theme
+;; Credits due to the excellent TextMate Twilight theme
+;;
+;; MIT License Copyright (c) 2011 Marcos Piccinini
 ;;
 
 (defun color-theme-fxx ()
-  "Color theme by Marcus Crafter, based off the TextMate Fxx theme, created 2008-04-18"
+  "Color theme by Marcos Piccinini, created 2011-3-3"
   (interactive)
   (color-theme-install
    '(color-theme-fxx
@@ -58,6 +63,7 @@
      (mmm-default-submode-face ((t (:background "#111"))))
      (primary-selection ((t (:background "#222"))))
      (region ((t (:background "#333")))) ;; suave e continuo!
+     (minibuffer-prompt ((t (:foreground "#eeee33" :bold t))))
 
      (gui-element ((t (:background "#D4D0C8" :foreground "black"))))
      (mode-line ((t (:background "grey75" :foreground "black"))))
