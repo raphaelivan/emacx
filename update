@@ -27,6 +27,7 @@ update "Cheat.el",       "https://github.com/samsonjs/cheat.el/raw/master/cheat.
 update "Linum.el",       "http://stud1.tuwien.ac.at/~e0225855/linum/linum.el"
 update "Markdown",       "https://github.com/defunkt/markdown-mode/raw/master/markdown-mode.el"
 update "Cucumber",       "https://github.com/michaelklishin/cucumber.el/raw/master/feature-mode.el"
+update "Textmate.el",    "https://github.com/defunkt/textmate.el/raw/master/textmate.el"
 update "CoffeeScript",   "https://github.com/nofxx/coffee-mode/raw/master/coffee-mode.el"
 update "Recursive Find", "https://github.com/nealford/emacs/raw/master/find-recursive.el"
 

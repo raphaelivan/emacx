@@ -20,6 +20,7 @@
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+
 ;; disable line wrap
 (setq default-truncate-lines t)
 
@@ -123,6 +124,11 @@
 (persp-mode)
 
 (require 'paren) (show-paren-mode t)
+
+(require 'cheat)
+
+(require 'textmate)
+(textmate-mode)
 
 ;; Autocomplete
 ;; http://cx4a.org/software/auto-complete/
@@ -481,16 +487,16 @@ exec-to-string command, but it works and seems fast"
 ;; Textmate goods
 ;; from http://github.com/topfunky/emacs-starter-kit
 ;;
-(defun textmate-next-line ()
-  (interactive)
-  (end-of-line)
-  (newline-and-indent))
-(defun textmate-previous-line ()
-  (interactive)
-  (beginning-of-line)
-  (newline-and-indent)
-  (previous-line)
-  (indent-according-to-mode))
+;; (defun textmate-next-line ()
+;;   (interactive)
+;;   (end-of-line)
+;;   (newline-and-indent))
+;; (defun textmate-previous-line ()
+;;   (interactive)
+;;   (beginning-of-line)
+;;   (newline-and-indent)
+;;   (previous-line)
+;;   (indent-according-to-mode))
 
 (setq auto-mode-alist (append
   '(("\\.cu$" . c++-mode))
@@ -520,7 +526,27 @@ exec-to-string command, but it works and seems fast"
 (global-set-key "\M-[" 'indent-region)
 (global-set-key "\M-]" 'indent-according-to-mode)
 (global-set-key "\M-s" 'save-buffer)
+
 (global-set-key "\M-t" 'ido-find-file)
+(global-set-key [(meta t)] 'ido-find-file)
+
+;; (eval-after-load 'textmate-mode
+;;   '(progn
+;;      (global-set-key "\M-t" 'ido-find-file)
+;;      (global-set-key [(meta t)] 'ido-find-file)
+;;      (define-key map [(meta t)] 'ido-find-file)
+
+;;     (define-key textmate-mode-map (kbd "M-t") 'ido-find-file)))
+
+
+;; (add-hook 'comint-mode-hook
+;;  (lambda ()
+;;    (define-key comint-mode-map (kbd "C-l") 'erase-buffer) ; was comint-previous-input. Use Ctrl+↑ or f11
+;;  )
+;; )
+
+
+
 (global-set-key "\M-q" 'kill-this-buffer)
 (global-set-key "\M-r" 'query-replace)
 (global-set-key "\M-w" 'ido-switch-buffer)
@@ -547,3 +573,6 @@ exec-to-string command, but it works and seems fast"
 (global-set-key [f12] 'toggle-truncate-lines)
 
 
+(put 'erase-buffer 'disabled nil)
+
+(message "teste")
