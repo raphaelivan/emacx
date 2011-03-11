@@ -31,12 +31,7 @@ update "Textmate.el",    "https://github.com/defunkt/textmate.el/raw/master/text
 update "CoffeeScript",   "https://github.com/nofxx/coffee-mode/raw/master/coffee-mode.el"
 update "Recursive Find", "https://github.com/nealford/emacs/raw/master/find-recursive.el"
 
-puts "Finished in #{(Time.now - TIME).to_i}s
-"
-#
-# Commented -> ELPA
-
-# update "Gist",           "https://github.com/defunkt/gist.el/raw/master/gist.el"
+update "Gist",           "https://github.com/defunkt/gist.el/raw/master/gist.el"
 update "Ruby Mode",     "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/ruby-mode.el"
 update "Ruby Style",    "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/ruby-style.el"
 update "Ruby Electric", "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/ruby-electric.el"
@@ -45,8 +40,13 @@ update "Ruby Inf",      "http://redmine.ruby-lang.org/projects/ruby-19/repositor
 update "Ruby db3x",     "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/rubydb3x.el"
 update "Ruby db2x",     "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/rubydb2x.el"
 
-# update "Rspec Mode",    "https://github.com/pezra/rspec-mode/raw/master/rspec-mode.el"
-# update "HAML Mode",     "https://github.com/nex3/haml-mode/raw/master/haml-mode.el"
-# update "SASS Mode",     "https://github.com/nex3/sass-mode/raw/master/sass-mode.el"
+update "Rspec Mode",    "https://github.com/pezra/rspec-mode/raw/master/rspec-mode.el"
+update "HAML Mode",     "https://github.com/nex3/haml-mode/raw/master/haml-mode.el"
+update "SASS Mode",     "https://github.com/nex3/sass-mode/raw/master/sass-mode.el"
 # update "Lua",           "http://luaforge.net/frs/download.php/4628/lua-mode.el"
 #update "CSS Mode", "http://www.emacswiki.org/emacs/download/css-mode.el"
+
+
+
+
+puts "Finished in #{(Time.now - TIME).to_i}s"

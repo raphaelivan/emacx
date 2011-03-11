@@ -528,25 +528,6 @@ exec-to-string command, but it works and seems fast"
 (global-set-key "\M-s" 'save-buffer)
 
 (global-set-key "\M-t" 'ido-find-file)
-(global-set-key [(meta t)] 'ido-find-file)
-
-;; (eval-after-load 'textmate-mode
-;;   '(progn
-;;      (global-set-key "\M-t" 'ido-find-file)
-;;      (global-set-key [(meta t)] 'ido-find-file)
-;;      (define-key map [(meta t)] 'ido-find-file)
-
-;;     (define-key textmate-mode-map (kbd "M-t") 'ido-find-file)))
-
-
-;; (add-hook 'comint-mode-hook
-;;  (lambda ()
-;;    (define-key comint-mode-map (kbd "C-l") 'erase-buffer) ; was comint-previous-input. Use Ctrl+↑ or f11
-;;  )
-;; )
-
-
-
 (global-set-key "\M-q" 'kill-this-buffer)
 (global-set-key "\M-r" 'query-replace)
 (global-set-key "\M-w" 'ido-switch-buffer)
@@ -572,7 +553,5 @@ exec-to-string command, but it works and seems fast"
 ;; Add F12 to toggle line wrap
 (global-set-key [f12] 'toggle-truncate-lines)
 
-
+;; Evil commands
 (put 'erase-buffer 'disabled nil)
-
-(message "teste")
