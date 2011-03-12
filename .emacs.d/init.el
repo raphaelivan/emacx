@@ -133,8 +133,9 @@
 ;; Autocomplete
 ;; http://cx4a.org/software/auto-complete/
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
+;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
 (ac-config-default)
+;;(global-auto-complete-mode t)
 
 ;; Linum
 (require 'linum)
@@ -389,7 +390,7 @@ exec-to-string command, but it works and seems fast"
 
 ;;
 ;; Rspec & Friends
-;; (require 'rspec-mode)
+(require 'rspec-mode)
 ;; (add-to-list 'load-path "~/.emacs.d/snippets/feature-mode")
 (autoload 'feature-mode "feature-mode" "Mode for editing cucumber files" t)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
@@ -415,8 +416,9 @@ exec-to-string command, but it works and seems fast"
 ;;
 ;; http://github.com/defunkt/coffee-mode.git
 (autoload 'coffee-mode "coffee-mode" "Major mode for editing coffee files." t)
-;;(add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
-;;(require 'coffee-mode)
+;; http://cx4a.org/software/auto-complete/manual.html#Enable_auto-complete-mode_automatically_for_specific_modes
+(add-to-list 'ac-modes 'coffee-mode)
+
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 
