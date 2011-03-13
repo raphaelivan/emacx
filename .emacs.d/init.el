@@ -132,9 +132,11 @@
 
 ;; Autocomplete
 ;; http://cx4a.org/software/auto-complete/
+;; ;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
 (require 'auto-complete-config)
-;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
 (ac-config-default)
+(add-to-list 'ac-modes 'coffee-mode)
+
 ;;(global-auto-complete-mode t)
 
 ;; Linum
@@ -339,7 +341,7 @@ exec-to-string command, but it works and seems fast"
 ;;
 (require 'ido)
 (ido-mode t)
-(setq ido-enable-flex-matching t)
+;(setq ido-enable-flex-matching t)
 (setq ;; Use it for many file dialogs
       ido-everywhere t
       ;; Don’t be case sensitive
@@ -417,7 +419,6 @@ exec-to-string command, but it works and seems fast"
 ;; http://github.com/defunkt/coffee-mode.git
 (autoload 'coffee-mode "coffee-mode" "Major mode for editing coffee files." t)
 ;; http://cx4a.org/software/auto-complete/manual.html#Enable_auto-complete-mode_automatically_for_specific_modes
-(add-to-list 'ac-modes 'coffee-mode)
 
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))

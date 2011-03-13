@@ -42,7 +42,7 @@
      (buffers-tab ((t (:background "black" :foreground "white"))))
      (font-lock-builtin-face ((t (:foreground "#dd7b3b"))))
      (font-lock-comment-face ((t (:foreground "#666" ))))                  ;; comment
-     (font-lock-constant-face ((t (:foreground "#aa2222"))))               ;; symbol
+     (font-lock-constant-face ((t (:foreground "#aa5500"))))               ;; symbol
      (font-lock-doc-string-face ((t (:foreground "#9b859d"))))
      (font-lock-function-name-face ((t (:foreground "#e9c062" :bold t))))  ;; fname
      (font-lock-keyword-face ((t (:foreground "#bb2222" :bold t))))        ;; keyword
@@ -54,7 +54,7 @@
      (font-lock-warning-face ((t (:bold t :background "#420e09" :foreground "#eeeeee"))))
 
      (font-lock-regexp-grouping-backslash ((t (:foreground "#E9C062"))))
-     (font-lock-regexp-grouping-construct ((t (:foreground "red"))))
+     (font-lock-regexp-grouping-construct ((t (:foreground "#188030"))))
 
      (highlight ((t (:bold t :slant italic))))
      (highline-face ((t (:background "#4a410d"))))

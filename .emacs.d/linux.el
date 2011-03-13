@@ -2,7 +2,8 @@
 ;; Linux Stuff
 ;;
 ;(set-frame-font "inconsolata-9")
-(set-default-font "Inconsolata-17")
+;(set-default-font "Inconsolata-18")
+(set-default-font "Monaco-15")
 ; Clipboard fix
 (setq x-select-enable-clipboard t)
 
