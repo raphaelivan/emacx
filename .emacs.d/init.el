@@ -145,7 +145,7 @@
 
 ;; GIT
 ;;
-(require 'magit)
+(autoload 'magit-status "magit" nil t)
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
 ;;(require 'gist)
 
@@ -541,20 +541,24 @@ exec-to-string command, but it works and seems fast"
 (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 
+(global-set-key "\C-l" 'goto-line)
+
 (global-set-key "\M-1" 'ibuffer)
 (global-set-key "\M-2" 'bookmark-bmenu-list)
-(global-set-key "\M-3" 'eshell)
-(global-set-key "\M-4" 'persp-switch)
+;; (global-set-key "\M-3" 'eshell)
+;; (global-set-key "\M-4" 'persp-switch)
 
 (global-set-key [M-return] 'textmate-next-line)
 (global-set-key [C-return] 'textmate-previous-line)
 
 (global-set-key [f5] 'bookmark-set)
+(global-set-key [f6] 'eshell)
+(global-set-key [f7] 'persp-switch)
 (global-set-key [f8] 'bookmark-jump)
 (global-set-key [f9] 'recompile)
-(global-set-key [f11] 'compile)
-;; Add F12 to toggle line wrap
-(global-set-key [f12] 'toggle-truncate-lines)
+(global-set-key [f10] 'compile)
+(global-set-key [f11] 'delete-other-windows)
+(global-set-key [f12] 'toggle-truncate-lines) ;; Add F12 to toggle line wrap
 
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
