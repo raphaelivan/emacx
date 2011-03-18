@@ -9,3 +9,6 @@
 *~
 \#*
 .\#*
+
+## elisp compiled
+*.elc
