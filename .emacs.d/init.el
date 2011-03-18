@@ -369,6 +369,7 @@ exec-to-string command, but it works and seems fast"
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(auto-save-interval 1)
+ '(auto-save-timeout 1)
  '(auto-save-visited-file-name t)
  '(cua-mode t nil (cua-base))
  '(display-time-mode t)
@@ -389,6 +390,8 @@ exec-to-string command, but it works and seems fast"
 ;;    Backup
 ;;
 ;;
+(setq backup-inhibited t)
+(setq make-backup-file nil)
 ;; (setq backup-by-copying t               ; don't clobber symlinks
 ;;       delete-old-versions t
 ;;       kept-new-versions 6
