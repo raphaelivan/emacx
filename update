@@ -40,6 +40,7 @@ update "Ruby Inf",      "http://redmine.ruby-lang.org/projects/ruby-19/repositor
 update "Ruby db3x",     "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/rubydb3x.el"
 update "Ruby db2x",     "http://redmine.ruby-lang.org/projects/ruby-19/repository/raw/misc/rubydb2x.el"
 
+update "YAML",          "https://github.com/yoshiki/yaml-mode/raw/master/yaml-mode.el"
 update "Rspec Mode",    "https://github.com/pezra/rspec-mode/raw/master/rspec-mode.el"
 update "HAML Mode",     "https://github.com/nex3/haml-mode/raw/master/haml-mode.el"
 update "SASS Mode",     "https://github.com/nex3/sass-mode/raw/master/sass-mode.el"
