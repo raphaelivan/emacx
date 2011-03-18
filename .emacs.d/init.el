@@ -299,6 +299,11 @@ exec-to-string command, but it works and seems fast"
 (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 
 (add-hook 'ruby-mode-hook
+          '(lambda ()
+             (make-variable-buffer-local 'yas/trigger-key)
+             (setq yas/trigger-key [tab])))
+
+(add-hook 'ruby-mode-hook
   (lambda()
     (add-hook 'local-write-file-hooks
       '(lambda()
@@ -376,18 +381,23 @@ exec-to-string command, but it works and seems fast"
  ;'(twit-pass "")
  ;'(twit-user ""))
 
-; Configurando o sistema de backup do Emacs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;;    Backup
+;;
+;;
+
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 (setq backup-by-copying t               ; don't clobber symlinks
-      backup-directory-alist
-      '(("." . "~/.emacs.d/backups"))      ; don't litter my fs tree
       delete-old-versions t
       kept-new-versions 6
       kept-old-versions 2
       version-control t)
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (make-variable-buffer-local 'yas/trigger-key)
-             (setq yas/trigger-key [tab])))
 
 
 ;;
@@ -500,6 +510,21 @@ exec-to-string command, but it works and seems fast"
 ;;   (newline-and-indent)
 ;;   (previous-line)
 ;;   (indent-according-to-mode))
+
+;; Save on lose focus (only xemacs)
+(defun dld-deselect-frame-hook ()
+  (save-some-buffers 1))
+
+;; Save on switch buffer
+(defadvice switch-to-buffer (before save-buffer-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice other-window (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice other-frame (before other-frame-now activate)
+  (when buffer-file-name (save-buffer)))
+
+
+(add-hook 'deselect-frame-hook 'dld-deselect-frame-hook)
 
 (setq auto-mode-alist (append
   '(("\\.cu$" . c++-mode))

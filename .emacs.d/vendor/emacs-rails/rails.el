@@ -417,9 +417,6 @@ necessary."
             (rails-project:with-root
              (root)
              (progn
-               (local-set-key (if rails-use-another-define-key
-                                  (kbd "TAB") (kbd "<tab>"))
-                              'indent-or-complete)
                (rails-minor-mode t)
                (rails-apply-for-buffer-type)))))
 
