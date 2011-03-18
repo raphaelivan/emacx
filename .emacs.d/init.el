@@ -22,7 +22,7 @@
 
 
 ;; disable line wrap
-(setq default-truncate-lines t)
+(setq truncate-lines t)
 
 ;; make emacs use the clipboard
 (setq x-select-enable-clipboard t)
@@ -43,7 +43,7 @@
                          "~/.emacs.d/vendor"
                          "~/.emacs.d/auto-complete"
                          "~/.emacs.d/color-theme"
-                         "~/.emacs.d/vendor/emacs-rails")
+                         "~/.emacs.d/emacs-rails")
                          load-path))
 
 (setq dotfiles-dir (file-name-directory
@@ -368,6 +368,7 @@ exec-to-string command, but it works and seems fast"
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(auto-save-interval 1)
  '(cua-mode t nil (cua-base))
  '(display-time-mode t)
  '(flymake-js-off t)
@@ -387,17 +388,11 @@ exec-to-string command, but it works and seems fast"
 ;;    Backup
 ;;
 ;;
-
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-(setq backup-by-copying t               ; don't clobber symlinks
-      delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)
+;; (setq backup-by-copying t               ; don't clobber symlinks
+;;       delete-old-versions t
+;;       kept-new-versions 6
+;;       kept-old-versions 2
+;;       version-control t)
 
 
 ;;
@@ -584,6 +579,11 @@ exec-to-string command, but it works and seems fast"
 (global-set-key [f10] 'compile)
 (global-set-key [f11] 'delete-other-windows)
 (global-set-key [f12] 'toggle-truncate-lines) ;; Add F12 to toggle line wrap
+
+;; Byte compile ~/.emacs.d
+(defun byte-recompile-home ()
+  (interactive)
+  (byte-recompile-directory "~/.emacs.d" 0))
 
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
