@@ -1,3 +1,4 @@
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
@@ -12,6 +13,9 @@
 (setq visible-bell t)
 (prefer-coding-system 'utf-8)
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
+(setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
 
 ;; Add color to a shell running in emacs 'M-x shell'
 ;; (require 'ansi-color)
@@ -368,10 +372,10 @@ exec-to-string command, but it works and seems fast"
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(auto-save-interval 1)
- '(auto-save-timeout 1)
- '(auto-save-visited-file-name t)
- '(cua-mode t nil (cua-base))
+ '(auto-save-interval 9999)
+ '(auto-save-timeout 9999)
+ ;;'(auto-save-visited-file-name t)
+ ;; '(cua-mode t nil (cua-base))
  '(display-time-mode t)
  '(flymake-js-off t)
  '(fset (quote yes-or-no-p) t)
@@ -431,6 +435,24 @@ exec-to-string command, but it works and seems fast"
 
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
+
+;; (defun coffee-custom ()
+;;   "coffee-mode-hook"
+;;   (setq coffee-js-mode 'javascript-mode)
+;;   ;; (setq coffee-args-compile '("-c" "--no-wrap"))
+;;   ;; (setq coffee-command "~/dev/coffee"))
+;;   (setq coffee-debug-mode t)  ;; *Messages* spam
+;;   (define-key coffee-mode-map [(meta r)] 'coffee-compile-buffer)  ;; Emacs key binding
+;;   (define-key coffee-mode-map (kbd "M-p") 'coffee-execute-file)
+;;   (define-key coffee-mode-map (kbd "M-l") 'coffee-compile-buffer)
+
+;;   ;; Compile '.coffee' files on every save
+;;   (add-hook 'after-save-hook
+;;       '(lambda ()
+;;          (when (string-match "\.coffee$" (buffer-name))
+;;           (coffee-compile-file)))))
+
+;; (add-hook 'coffee-mode-hook '(lambda () (coffee-custom)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -533,6 +555,7 @@ exec-to-string command, but it works and seems fast"
   '(("\\.pde$" . c++-mode))
    auto-mode-alist))
 
+(require 'sass-mode)
 
 ;;
 ;; TODO/FIXME/BUG
@@ -591,3 +614,4 @@ exec-to-string command, but it works and seems fast"
 
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
+

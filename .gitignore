@@ -12,3 +12,4 @@
 
 ## elisp compiled
 *.elc
+/.emacs.d/tramp
