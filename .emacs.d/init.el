@@ -477,7 +477,10 @@ exec-to-string command, but it works and seems fast"
   ;; If there is more than one, they won't work right.
  )
 
+(cua-mode t)
 (setq cua-auto-tabify-rectangles nil)
+(transient-mark-mode 1) ;; No region when it is not highlighted
+(setq cua-keep-region-after-copy t)
 
 (defadvice align (around smart-tabs activate)
   (let ((indent-tabs-mode nil)) ad-do-it))
