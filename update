@@ -44,8 +44,8 @@ update "YAML",          "https://github.com/yoshiki/yaml-mode/raw/master/yaml-mo
 update "Rspec Mode",    "https://github.com/pezra/rspec-mode/raw/master/rspec-mode.el"
 update "HAML Mode",     "https://github.com/nex3/haml-mode/raw/master/haml-mode.el"
 update "SASS Mode",     "https://github.com/nex3/sass-mode/raw/master/sass-mode.el"
+update "SCSS Mode",     "https://github.com/antonj/scss-mode/raw/master/scss-mode.el"
 update "Perspective",   "https://github.com/nex3/perspective-el/raw/master/perspective.el"
-
 update "Findr.el",      "http://www.emacswiki.org/emacs/download/findr.el"
 
 

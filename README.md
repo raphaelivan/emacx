@@ -1,12 +1,12 @@
 # Emacs Ruby Dotfiles
 
-Lots of modes and shortcuts to make coding ruby/rails more fun.
+Lots of modes and shortcuts to make coding in emacs more fun.
 
 
 ## Install
 
     git clone git://github.com/nofxx/emacx
-    cp emacx/.* ~
+    cd emacx && ln -s `pwd`/.emacs.d ~/.emacs.d
 
 Or use the install script:
 
@@ -14,12 +14,16 @@ Or use the install script:
     ./install
 
 
-### Font
+### Fonts
 
-Monaco for Linux is used here, if you don`t have it:
+Monaco/Inconsolata for Linux is used here, if you don`t have it:
 
     cp -r .fonts ~
     sudo fc-cache -vf
+
+Archlinux:
+
+    pacman -S ttf-inconsolata monaco-linux-font
 
 
 ## Emacs
@@ -56,26 +60,22 @@ For the lazy, check out /dev/null
 
 ## O que é?
 
-Uma reunião de  plugins e configurações para transformarem o Emacs em um
-editor melhor para Ruby on Rails. Ele também contem algumas
-configurações para PHP e HTML. O Projeto foi retirado a partir das
-configurações do Emacs cedidas pelo [Ramon Soares][rm]
+Uma reunião de  plugins e configurações pra deixar o Emacs  pronto pra usar.
 
 ## Ok, gostaria de começar a utilizar o Emacs, como devo proceder?
 
+Siga os comandos no topo desse tutorial pra instalar.
+
 Inicie pelo tutorial incluso no Editor, em Help => Emacs Tutorial
+
 
 ## Emacs é somente para nerds e é muito díficil, o que devo fazer?
 
 Por favor, verifique o manual para preguiçosos do mesmo em /dev/null.
 
+
 ## Desenvolvedores
 
-- [Thiago Pradi][tp]
-- [Ramon Soares][rm]
-- [Marcos Zimmermann][mz]
-- [Marcos Piccinini][nofxx]
 
-[rm]: http://blog.ramonsoares.com/
-[tp]: http://thiagopradi.net
-[mz]: http://mgzmaster.wordpress.com/
+Melhorias/correções:
+Fork! E ñ exite em mandar um 'pull request'.
