@@ -56,7 +56,7 @@ For the lazy, check out /dev/null
 * M-w  =>  ido-switch-buffer
 
 
-# Portugues
+# Português
 
 ## O que é?
 
