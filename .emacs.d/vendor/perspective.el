@@ -110,6 +110,7 @@ Run with the activated perspective active.")
 (define-key persp-mode-map (kbd "C-x x") perspective-map)
 
 (define-key persp-mode-map (kbd "C-x x s") 'persp-switch)
+(define-key persp-mode-map (kbd "C-x x n") 'persp-new)
 (define-key persp-mode-map (kbd "C-x x k") 'persp-remove-buffer)
 (define-key persp-mode-map (kbd "C-x x c") 'persp-kill)
 (define-key persp-mode-map (kbd "C-x x r") 'persp-rename)
@@ -245,14 +246,17 @@ Excludes NOT-FRAME, if given."
 (defun persp-prompt (&optional default require-match)
   "Prompt for the name of a perspective.
 
-DEFAULT is a default value for the prompt.
+  DEFAULT is a default value for the prompt.
 
-REQUIRE-MATCH can take the same values as in `completing-read'."
-  (completing-read (concat "Perspective name"
-                           (if default (concat " (default " default ")") "")
-                           ": ")
-                   (persp-names)
-                   nil require-match nil nil default))
+  REQUIRE-MATCH can take the same values as in `completing-read'."
+  (let ((read-fn (if (featurep 'ido) 'ido-completing-read 'completing-read))
+        (persp-names (if (featurep 'ido)
+                         (delq (persp-name persp-curr) (persp-names))
+                       (persp-names))))
+    (funcall read-fn
+             (concat "Perspective name"
+                     (if default (concat " (default " default ")") "") ": ")
+             persp-names nil require-match nil nil default)))
 
 (defmacro with-perspective (name &rest body)
   "Switch to the perspective given by NAME while evaluating BODY."
@@ -270,6 +274,7 @@ REQUIRE-MATCH can take the same values as in `completing-read'."
   "Return a new perspective with name NAME.
 The new perspective will start with only an `initial-major-mode'
 buffer called \"*scratch* (NAME)\"."
+  (interactive "sNew Perspective Name: ")
   (make-persp :name name
     (switch-to-buffer (concat "*scratch* (" name ")"))
     (funcall initial-major-mode)
@@ -353,21 +358,20 @@ This is used for cycling between perspectives."
 
 (defun persp-switch (name)
   "Switch to the perspective given by NAME.
-If it doesn't exist, create a new perspective and switch to that.
 
-Switching to a perspective means that all buffers associated with
-that perspective are reactivated (see `persp-reactivate-buffers'),
-the perspective's window configuration is restored, and the
-perspective's local variables are set."
+  Switching to a perspective means that all buffers associated with
+  that perspective are reactivated (see `persp-reactivate-buffers'),
+  the perspective's window configuration is restored, and the
+  perspective's local variables are set."
   (interactive "i")
-  (if (null name) (setq name (persp-prompt (and persp-last (persp-name persp-last)))))
-  (if (and persp-curr (equal name (persp-name persp-curr))) name
-    (let ((persp (gethash name perspectives-hash)))
-      (setq persp-last persp-curr)
-      (when (null persp)
-        (setq persp (persp-new name)))
-      (persp-activate persp)
-      name)))
+  (let ((name (or name (persp-prompt (and persp-last
+                                          (persp-name persp-last)) t))))
+    (if (and persp-curr (equal name (persp-name persp-curr)))
+        name
+      (let ((persp (gethash name perspectives-hash)))
+        (setq persp-last persp-curr)
+        (persp-activate persp)
+        name))))
 
 (defun persp-activate (persp)
   "Activate the perspective given by the persp struct PERSP."
@@ -388,7 +392,8 @@ Sets `this-command' (and thus `last-command') to (persp-switch-quick . CHAR).
 
 See `persp-switch', `persp-get-quick'."
   (interactive "c")
-  (let ((persp (if (and (consp last-command) (eq (car last-command) this-command))
+  (let ((persp (if (and (consp last-command)
+                        (eq (car last-command) this-command))
                    (persp-get-quick char (cdr last-command))
                  (persp-get-quick char))))
     (setq this-command (cons this-command persp))
@@ -425,8 +430,9 @@ See also `persp-switch' and `persp-remove-buffer'."
     (let ((read-buffer-function nil))
       (read-buffer "Add buffer to perspective: "))))
   (let ((buffer (get-buffer buffer)))
-    (unless (memq buffer (persp-buffers persp-curr))
-      (push buffer (persp-buffers persp-curr)))))
+    (when (memq buffer (persp-buffers persp-curr))
+      (delq buffer (persp-buffers persp-curr)))
+    (push buffer (persp-buffers persp-curr))))
 
 (defun* persp-buffer-in-other-p (buffer)
   "Returns nil if BUFFER is only in the current perspective.
@@ -679,9 +685,11 @@ it. In addition, if one exists already, runs BODY in it immediately."
        (with-perspective ,name ,@body))))
 
 (defun persp-set-ido-buffers ()
-  (setq ido-temp-list
-        (let ((names (remq nil (mapcar 'buffer-name (persp-buffers persp-curr)))))
-          (or (remove-if (lambda (name) (eq (string-to-char name) ? )) names) names))))
+  (let* ((names (remq nil (mapcar 'buffer-name (persp-buffers persp-curr))))
+         (bufs (or (remove-if (lambda (n) (eq (string-to-char n) ? )) names)
+                   names)))
+    (setq ido-temp-list
+          (remove-if-not (lambda (x) (member x bufs)) ido-temp-list))))
 
 (defun quick-perspective-keys ()
   "Bind quick key commands to switch to perspectives.
