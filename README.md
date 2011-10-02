@@ -56,6 +56,13 @@ For the lazy, check out /dev/null
 * M-w  =>  ido-switch-buffer
 
 
+## Byte compile
+
+Run when you update/make changes to your config:
+
+    M-x byte-recompile-home
+
+
 # Português
 
 ## O que é?
