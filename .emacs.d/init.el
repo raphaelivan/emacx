@@ -38,6 +38,8 @@
 ;;(setq tab-width 2)
 (setq indent-tabs-mode nil)
 (setq-default tab-width 2) ; or any other preferred value
+(setq whitespace-line-count 80
+      whitespace-style '(lines))
 
 ;;
 ;; Load Path
@@ -589,6 +591,9 @@ exec-to-string command, but it works and seems fast"
 (global-set-key "\M-w" 'ido-switch-buffer)
 (global-set-key "\M-W" 'bookmark-jump)
 
+(global-set-key [S-return] 'open-line)
+(global-set-key "\C-o" 'occur)
+
 ;; Use regex searches by default.
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
@@ -602,7 +607,7 @@ exec-to-string command, but it works and seems fast"
 ;; (global-set-key "\M-4" 'persp-switch)
 
 (global-set-key [M-return] 'textmate-next-line)
-(global-set-key [C-return] 'textmate-previous-line)
+;;(global-set-key [C-return] 'textmate-next-line)
 
 (global-set-key [f5] 'bookmark-set)
 (global-set-key [f6] 'eshell)
@@ -610,6 +615,9 @@ exec-to-string command, but it works and seems fast"
 (global-set-key [f8] 'bookmark-jump)
 (global-set-key [f9] 'recompile)
 (global-set-key [f10] 'compile)
+
+
+
 (global-set-key [f11] 'delete-other-windows)
 (global-set-key [f12] 'toggle-truncate-lines) ;; Add F12 to toggle line wrap
 
