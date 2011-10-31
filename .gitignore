@@ -9,6 +9,8 @@
 *~
 \#*
 .\#*
+*.desktop
+*.lock
 
 ## elisp compiled
 *.elc
