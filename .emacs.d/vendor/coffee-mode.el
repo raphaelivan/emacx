@@ -169,12 +169,9 @@ path."
     (when buffer
       (kill-buffer buffer)))
 
-  (save-buffer)
-  (ansi-color-for-comint-mode-on)
-
   (call-process coffee-command buffer-file-name
                 (get-buffer-create coffee-executed-buffer-name))
-  (ansi-color-for-comint-mode-on)
+
   (message "Compiled OK")
   (if (one-window-p)
     (switch-to-buffer (get-buffer coffee-executed-buffer-name))
