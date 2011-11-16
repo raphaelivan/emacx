@@ -82,8 +82,8 @@
 completing filenames and symbols (`ido' by default)")
 
 (defvar textmate-find-files-command "find \"%s\" -type f"
-  "The command `textmate-project-root' uses to find files. %s will be replaced
-the project root.")
+  "The command `textmate-project-files' uses to find files. %s will be replaced
+by the project root.")
 
 (defvar *textmate-completing-function-alist* '((ido ido-completing-read)
                                                (icicles  icicle-completing-read)
@@ -150,7 +150,7 @@ the project root.")
      (define-key map [(control tab)] 'textmate-shift-right)
      (define-key map [(control shift tab)] 'textmate-shift-left)
      (define-key map [(control c)(control k)] 'comment-or-uncomment-region-or-line)
-     ;; REALLY HARD TO OVERWRITE !
+		 ;; REALLY HARD TO OVERWRITE !
      ;;(define-key map [(meta t)] 'textmate-goto-file)
      (define-key map [(meta shift l)] 'textmate-select-line)
      (define-key map [(meta shift t)] 'textmate-goto-symbol)
@@ -296,17 +296,17 @@ Symbols matching the text at point are put first in the completion list."
   "Uses your completing read to quickly jump to a file in a project."
   (interactive)
   (let ((root (textmate-project-root)))
-    (when (null root)
+    (when (null root) 
       (error "Can't find any .git directory"))
-    (find-file
-     (concat
+    (find-file 
+     (concat 
       (expand-file-name root) "/"
-      (textmate-completing-read
+      (textmate-completing-read 
        "Find file: "
        (mapcar
-  (lambda (e)
-    (replace-regexp-in-string (textmate-project-root) "" e))
-  (textmate-cached-project-files (textmate-project-root))))))))
+	(lambda (e)
+	  (replace-regexp-in-string (textmate-project-root) "" e))
+	(textmate-cached-project-files (textmate-project-root))))))))
 
 (defun textmate-clear-cache ()
   "Clears the project root and project files cache. Use after adding files."
@@ -317,7 +317,7 @@ Symbols matching the text at point are put first in the completion list."
 
 ;;; Utilities
 
-(defun textmate-project-files (root)
+(defun textmate-find-project-files (root)
   "Finds all files in a given project."
   (split-string
     (shell-command-to-string
@@ -328,6 +328,11 @@ Symbols matching the text at point are put first in the completion list."
       "' | sed 's:"
       *textmate-project-root*
       "/::'")) "\n" t))
+
+(defun textmate-project-files (root)
+  (sort
+    (textmate-find-project-files root)
+    '(lambda (a b) (< (length a) (length b)))))
 
 ;; http://snipplr.com/view/18683/stringreplace/
 (defun textmate-string-replace (this withthat in)
