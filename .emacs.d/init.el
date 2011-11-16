@@ -231,17 +231,17 @@
 
 ;;; Rake
 
-(defun pcomplete/rake ()
-  "Completion rules for the `ssh' command."
-  (pcomplete-here (pcmpl-rake-tasks)))
+;; (defun pcomplete/rake ()
+;;   "Completion rules for the `ssh' command."
+;;   (pcomplete-here (pcmpl-rake-tasks)))
 
-(defun pcmpl-rake-tasks ()
-  "Return a list of all the rake tasks defined in the current
-projects. I know this is a hack to put all the logic in the
-exec-to-string command, but it works and seems fast"
-  (delq nil (mapcar '(lambda(line)
-                       (if (string-match "rake \\([^ ]+\\)" line) (match-string 1 line)))
-                    (split-string (shell-command-to-string "rake -T") "[\n]"))))
+;; (defun pcmpl-rake-tasks ()
+;;   "Return a list of all the rake tasks defined in the current
+;; projects. I know this is a hack to put all the logic in the
+;; exec-to-string command, but it works and seems fast"
+;;   (delq nil (mapcar '(lambda(line)
+;;                        (if (string-match "rake \\([^ ]+\\)" line) (match-string 1 line)))
+;;                     (split-string (shell-command-to-string "rake -T") "[\n]"))))
 
 (defun rake (task)
   (interactive (list (completing-read "Rake (default: default): "
@@ -277,11 +277,11 @@ exec-to-string command, but it works and seems fast"
              (file-writable-p
               (file-name-directory buffer-file-name))
              (file-writable-p buffer-file-name)
-             (if (fboundp 'tramp-list-remote-buffers)
-                 (not (subsetp
-                       (list (current-buffer))
-                       (tramp-list-remote-buffers)))
-               t))
+             ;;(if (fboundp 'tramp-list-remote-buffers)
+             ;#    (not (subsetp
+             ;#          (list (current-buffer))
+             ;#          (tramp-list-remote-buffers)))
+               t)
     (local-set-key (kbd "C-c d")
                    'flymake-display-err-menu-for-current-line)
     (flymake-mode t)))
@@ -616,7 +616,7 @@ exec-to-string command, but it works and seems fast"
 (global-set-key [f9] 'recompile)
 (global-set-key [f10] 'compile)
 
-
+(setq tramp-shell-prompt-pattern "^[^$>\n]*[#$%>] *\\(\[[0-9;]*[a-zA-Z] *\\)*")
 
 (global-set-key [f11] 'delete-other-windows)
 (global-set-key [f12] 'toggle-truncate-lines) ;; Add F12 to toggle line wrap
