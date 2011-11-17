@@ -14,6 +14,7 @@
   "Specialization of compilation-mode for use with ack."
   nil)
 
+
 (defun ack (dir pattern args)
   "Run ack, with user-specified ARGS, and collect output in a buffer.
 While ack runs asynchronously, you can use the \\[next-error] command to

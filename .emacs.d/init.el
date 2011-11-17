@@ -1,9 +1,7 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
 ;; Emacs for fun and profit !!
-;;
 ;;
 ;;
 ;; User
@@ -64,7 +62,7 @@
 ;; Desktop Save Nice....
 (desktop-save-mode 1)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
@@ -138,14 +136,10 @@
 (require 'textmate)
 (textmate-mode)
 
-;; Autocomplete
-;; http://cx4a.org/software/auto-complete/
-;; ;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-modes 'coffee-mode)
+;; (load-file "/usr/share/emacs/site-lisp/cedet/common/cedet.el")
+;; (global-ede-mode 1)                      ; Enable the Project management system
+;; (semantic-load-enable-code-helpers)
 
-;;(global-auto-complete-mode t)
 
 ;; Linum
 (require 'linum)
@@ -334,7 +328,7 @@
 
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;    Emacs-Rails
@@ -347,7 +341,7 @@
 ;; (require 'rinari)
 ;; (setq rinari-tags-file-name "TAGS")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;   IDO Interactively Do Things
@@ -372,28 +366,30 @@
       ;; I probably want a new file.
       ;;ido-auto-merge-work-directories-length -3)
 
+;; EMACS WRITES HERE
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(auto-save-interval 9999)
  '(auto-save-timeout 9999)
- ;;'(auto-save-visited-file-name t)
- ;; '(cua-mode t nil (cua-base))
  '(display-time-mode t)
  '(flymake-js-off t)
  '(fset (quote yes-or-no-p) t)
  '(inhibit-startup-screen t)
  '(menu-bar-mode nil)
+ '(rails-indent-and-complete nil)
  '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
- ;'(twit-pass "")
- ;'(twit-user ""))
+ ;;'(twit-pass "")
+ ;;'(twit-user ""))
+ ;;'(auto-save-visited-file-name t)
+ ;; '(cua-mode t nil (cua-base))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;    Backup
@@ -429,7 +425,7 @@
 (define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;; Coffee-Script
@@ -460,7 +456,7 @@
 ;; (add-hook 'coffee-mode-hook '(lambda () (coffee-custom)))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;; Findr!
@@ -476,10 +472,10 @@
 
 ;(define-key shell-mode-map "\C-c\C-a" 'autotest-switch)
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 
 (cua-mode t)
@@ -522,7 +518,7 @@
 (moz-minor-mode 1)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
@@ -572,7 +568,7 @@
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
@@ -628,4 +624,31 @@
 
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
+
+;; Autocomplete
+;; http://cx4a.org/software/auto-complete/
+;; ;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
+(require 'auto-complete-config)
+(setq ac-auto-start nil)
+(ac-config-default)
+(ac-set-trigger-key "TAB")
+
+;;(global-set-key (kbd "TAB") 'auto-complete)
+;;(global-auto-complete-mode t)
+;;(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+(add-to-list 'ac-modes 'coffee-mode)
+
+(add-hook 'ruby-mode-hook
+					(lambda ()
+						;; (local-set-key (kbd "TAB") 'auto-complete)
+            ;; (define-key ruby-mode-map [TAB] 'auto-complete)
+						(make-local-variable 'ac-stop-words)
+						(add-to-list 'ac-stop-words "end")))
+
+
+
+
+
+
+
 
