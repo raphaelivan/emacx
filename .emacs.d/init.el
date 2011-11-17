@@ -11,6 +11,12 @@
 (prefer-coding-system 'utf-8)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+(setq truncate-lines t) ;; disable line wrap
+(setq x-select-enable-clipboard t) ;; make emacs use the clipboard
+
+;; Transparently open compressed files
+(auto-compression-mode t)
+
 (autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
 (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
 
@@ -20,13 +26,6 @@
 ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-
-;; disable line wrap
-(setq truncate-lines t)
-
-;; make emacs use the clipboard
-(setq x-select-enable-clipboard t)
 
 ;; make side by side buffers function the same as the main window
 (setq truncate-partial-width-windows nil)
@@ -103,8 +102,6 @@
   (mouse-wheel-mode t)
   (blink-cursor-mode -1))
 
-;; Transparently open compressed files
-(auto-compression-mode t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -126,19 +123,12 @@
 
 ;;
 ;; Perspective
-(require 'perspective)
-(persp-mode)
-
 (require 'paren) (show-paren-mode t)
-
+(require 'linum) (global-linum-mode)
+(require 'textmate) (textmate-mode)
+(require 'perspective) (persp-mode)
+(require 'sass-mode)
 (require 'cheat)
-
-(require 'textmate)
-(textmate-mode)
-
-;; Linum
-(require 'linum)
-(global-linum-mode)
 
 ;; GIT
 ;;
@@ -156,6 +146,16 @@
 ; YAML Mode
 (autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
 (setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
+
+;; Autocomplete
+;; http://cx4a.org/software/auto-complete/
+;; ;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
+(require 'auto-complete-config)
+(setq ac-auto-start nil)
+(ac-config-default)
+(ac-set-trigger-key "TAB")
+;;(global-auto-complete-mode t)
+;;(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 
 ;; TODO AUTOLOAD
 ;; (require 'textile-mode)
@@ -190,7 +190,6 @@
 (setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".erb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".god$" . ruby-mode) auto-mode-alist))
-
 
 (eval-after-load 'ruby-mode
   '(progn
@@ -267,9 +266,9 @@
               (file-name-directory buffer-file-name))
              (file-writable-p buffer-file-name)
              ;;(if (fboundp 'tramp-list-remote-buffers)
-																				;#    (not (subsetp
-																				;#          (list (current-buffer))
-																				;#          (tramp-list-remote-buffers)))
+						 ;;    (not (subsetp
+						 ;;         (list (current-buffer))
+						 ;;  (tramp-list-remote-buffers)))
 						 t)
     (local-set-key (kbd "C-c d")
                    'flymake-display-err-menu-for-current-line)
@@ -297,8 +296,6 @@
 
 (add-hook 'ruby-mode-hook
 					(lambda()
-						;; (local-set-key (kbd "TAB") 'auto-complete)
-						;; (define-key ruby-mode-map [TAB] 'auto-complete)
 						(make-local-variable 'ac-stop-words)
 						(add-to-list 'ac-stop-words "end")
 						(add-hook 'local-write-file-hooks
@@ -317,9 +314,6 @@
 						(ruby-electric-mode t)
 						)
 					)
-
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -345,17 +339,12 @@
 																				;(setq ido-enable-flex-matching t)
 (setq ;; Use it for many file dialogs
  ido-everywhere t
- ;; Don’t be case sensitive
- ido-case-fold t)
-;; If the file at point exists, use that
-;;ido-use-filename-at-point t)
-;; Or if it is an URL…
-;;ido-use-url-at-point t
-;; Even if TAB completes uniquely,
-;; still wait for RET
+ ido-case-fold t)  ;; Don’t be case sensitive
+;;ido-use-filename-at-point t);; If the file at point exists, use that
+;;ido-use-url-at-point t ;; Or if it is an URL…
+;; Even if TAB completes uniquely,;; still wait for RET
 ;;ido-confirm-unique-completion t)
-;; If the input does not exist,
-;; don’t look in unexpected places.
+;; If the input does not exist,;; don’t look in unexpected places.
 ;; I probably want a new file.
 ;;ido-auto-merge-work-directories-length -3)
 
@@ -556,7 +545,7 @@
 											 '(("\\.pde$" . c++-mode))
 											 auto-mode-alist))
 
-(require 'sass-mode)
+
 
 ;;
 ;; TODO/FIXME/BUG
@@ -619,17 +608,6 @@
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
 
-;; Autocomplete
-;; http://cx4a.org/software/auto-complete/
-;; ;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
-(require 'auto-complete-config)
-(setq ac-auto-start nil)
-(ac-config-default)
-(ac-set-trigger-key "TAB")
-
-;;(global-set-key (kbd "TAB") 'auto-complete)
-;;(global-auto-complete-mode t)
-;;(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 (add-to-list 'ac-modes 'coffee-mode)
 
 
