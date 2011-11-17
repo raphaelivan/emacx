@@ -136,11 +136,6 @@
 (require 'textmate)
 (textmate-mode)
 
-;; (load-file "/usr/share/emacs/site-lisp/cedet/common/cedet.el")
-;; (global-ede-mode 1)                      ; Enable the Project management system
-;; (semantic-load-enable-code-helpers)
-
-
 ;; Linum
 (require 'linum)
 (global-linum-mode)
@@ -183,7 +178,7 @@
 ;; (yas/load-directory "~/.emacs.d/snippets")
 ;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;   Ruby
@@ -272,10 +267,10 @@
               (file-name-directory buffer-file-name))
              (file-writable-p buffer-file-name)
              ;;(if (fboundp 'tramp-list-remote-buffers)
-             ;#    (not (subsetp
-             ;#          (list (current-buffer))
-             ;#          (tramp-list-remote-buffers)))
-               t)
+																				;#    (not (subsetp
+																				;#          (list (current-buffer))
+																				;#          (tramp-list-remote-buffers)))
+						 t)
     (local-set-key (kbd "C-c d")
                    'flymake-display-err-menu-for-current-line)
     (flymake-mode t)))
@@ -294,12 +289,6 @@
       (list 'mumamo-after-change-major-mode-hook 'dired-mode-hook 'ruby-mode-hook
             'css-mode-hook 'yaml-mode-hook 'javascript-mode-hook))
 
-;; TODO: set up ri
-;; TODO: electric
-;; Rake files are ruby, too, as are gemspecs.
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 
 (add-hook 'ruby-mode-hook
           '(lambda ()
@@ -307,23 +296,27 @@
              (setq yas/trigger-key [tab])))
 
 (add-hook 'ruby-mode-hook
-  (lambda()
-    (add-hook 'local-write-file-hooks
-      '(lambda()
-        (save-excursion
-              (untabify (point-min) (point-max))
-              (delete-trailing-whitespace)
-                )
-          )
-        )
-        (set (make-local-variable 'indent-tabs-mode) 'nil)
-        (set (make-local-variable 'tab-width) 2)
-        (imenu-add-to-menubar "IMENU")
-        (define-key ruby-mode-map "\C-m" 'newline-and-indent)
-        (require 'ruby-electric)
-        (ruby-electric-mode t)
-  )
-)
+					(lambda()
+						;; (local-set-key (kbd "TAB") 'auto-complete)
+						;; (define-key ruby-mode-map [TAB] 'auto-complete)
+						(make-local-variable 'ac-stop-words)
+						(add-to-list 'ac-stop-words "end")
+						(add-hook 'local-write-file-hooks
+											'(lambda()
+												 (save-excursion
+													 (untabify (point-min) (point-max))
+													 (delete-trailing-whitespace)
+													 )
+												 )
+											)
+						(set (make-local-variable 'indent-tabs-mode) 'nil)
+						(set (make-local-variable 'tab-width) 2)
+						(imenu-add-to-menubar "IMENU")
+						(define-key ruby-mode-map "\C-m" 'newline-and-indent)
+						(require 'ruby-electric)
+						(ruby-electric-mode t)
+						)
+					)
 
 
 
@@ -337,7 +330,7 @@
 ;;(load "find-recursive")
 (require 'rails)                        ;
 
-; Rinari (RAILS) Configurações
+																				; Rinari (RAILS) Configurações
 ;; (require 'rinari)
 ;; (setq rinari-tags-file-name "TAGS")
 
@@ -349,22 +342,22 @@
 ;;
 (require 'ido)
 (ido-mode t)
-;(setq ido-enable-flex-matching t)
+																				;(setq ido-enable-flex-matching t)
 (setq ;; Use it for many file dialogs
-      ido-everywhere t
-      ;; Don’t be case sensitive
-      ido-case-fold t)
-      ;; If the file at point exists, use that
-      ;;ido-use-filename-at-point t)
-      ;; Or if it is an URL…
-      ;;ido-use-url-at-point t
-      ;; Even if TAB completes uniquely,
-      ;; still wait for RET
-      ;;ido-confirm-unique-completion t)
-      ;; If the input does not exist,
-      ;; don’t look in unexpected places.
-      ;; I probably want a new file.
-      ;;ido-auto-merge-work-directories-length -3)
+ ido-everywhere t
+ ;; Don’t be case sensitive
+ ido-case-fold t)
+;; If the file at point exists, use that
+;;ido-use-filename-at-point t)
+;; Or if it is an URL…
+;;ido-use-url-at-point t
+;; Even if TAB completes uniquely,
+;; still wait for RET
+;;ido-confirm-unique-completion t)
+;; If the input does not exist,
+;; don’t look in unexpected places.
+;; I probably want a new file.
+;;ido-auto-merge-work-directories-length -3)
 
 ;; EMACS WRITES HERE
 (custom-set-variables
@@ -384,10 +377,10 @@
  '(scroll-bar-mode (quote right))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
- ;;'(twit-pass "")
- ;;'(twit-user ""))
- ;;'(auto-save-visited-file-name t)
- ;; '(cua-mode t nil (cua-base))
+;;'(twit-pass "")
+;;'(twit-user ""))
+;;'(auto-save-visited-file-name t)
+;; '(cua-mode t nil (cua-base))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -403,6 +396,10 @@
 ;;       kept-old-versions 2
 ;;       version-control t)
 
+;; Byte compile ~/.emacs.d
+(defun byte-recompile-home ()
+  (interactive)
+  (byte-recompile-directory "~/.emacs.d" 0))
 
 ;;
 ;; Rspec & Friends
@@ -412,16 +409,16 @@
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
 (defun autotest ()
-(interactive)
-(let ((buffer (shell "autotest")))
-(comint-send-string buffer "autotest\n")))
+	(interactive)
+	(let ((buffer (shell "autotest")))
+		(comint-send-string buffer "autotest\n")))
 
 (defun autotest-switch ()
-(interactive)
-(if (equal "autotest" (buffer-name))
-(previous-buffer)
-(switch-to-buffer "autotest")))
-; add to ruby mode hook:
+	(interactive)
+	(if (equal "autotest" (buffer-name))
+			(previous-buffer)
+		(switch-to-buffer "autotest")))
+																				; add to ruby mode hook:
 (define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
 
@@ -470,7 +467,7 @@
 (autoload 'findr-query-replace "findr" "Replace text in files." t)
 (define-key global-map [(meta control r)] 'findr-query-replace)
 
-;(define-key shell-mode-map "\C-c\C-a" 'autotest-switch)
+																				;(define-key shell-mode-map "\C-c\C-a" 'autotest-switch)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -552,12 +549,12 @@
 (add-hook 'deselect-frame-hook 'dld-deselect-frame-hook)
 
 (setq auto-mode-alist (append
-  '(("\\.cu$" . c++-mode))
-   auto-mode-alist))
+											 '(("\\.cu$" . c++-mode))
+											 auto-mode-alist))
 
 (setq auto-mode-alist (append
-  '(("\\.pde$" . c++-mode))
-   auto-mode-alist))
+											 '(("\\.pde$" . c++-mode))
+											 auto-mode-alist))
 
 (require 'sass-mode)
 
@@ -617,10 +614,7 @@
 (global-set-key [f11] 'delete-other-windows)
 (global-set-key [f12] 'toggle-truncate-lines) ;; Add F12 to toggle line wrap
 
-;; Byte compile ~/.emacs.d
-(defun byte-recompile-home ()
-  (interactive)
-  (byte-recompile-directory "~/.emacs.d" 0))
+
 
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
@@ -637,13 +631,6 @@
 ;;(global-auto-complete-mode t)
 ;;(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 (add-to-list 'ac-modes 'coffee-mode)
-
-(add-hook 'ruby-mode-hook
-					(lambda ()
-						;; (local-set-key (kbd "TAB") 'auto-complete)
-            ;; (define-key ruby-mode-map [TAB] 'auto-complete)
-						(make-local-variable 'ac-stop-words)
-						(add-to-list 'ac-stop-words "end")))
 
 
 
