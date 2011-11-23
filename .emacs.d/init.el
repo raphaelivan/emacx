@@ -33,10 +33,12 @@
 ;; Tabs
 ;;(setq c-basic-offset 2)
 ;;(setq tab-width 2)
-(setq indent-tabs-mode nil)
+;;(setq indent-tabs-mode nil)
 (setq-default tab-width 2) ; or any other preferred value
-(setq whitespace-line-count 80
-      whitespace-style '(lines))
+;; (setq whitespace-line-count 80
+;;       whitespace-style '(lines))
+;; (global-whitespace-mode 1)
+
 
 ;;
 ;; Load Path
@@ -102,6 +104,11 @@
   (mouse-wheel-mode t)
   (blink-cursor-mode -1))
 
+;; YAS
+;; (require 'yasnippet)
+;; (yas/initialize)
+;; (yas/load-directory "~/.emacs.d/snippets")
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -147,15 +154,6 @@
 (autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
 (setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
 
-;; Autocomplete
-;; http://cx4a.org/software/auto-complete/
-;; ;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
-(require 'auto-complete-config)
-(setq ac-auto-start nil)
-(ac-config-default)
-(ac-set-trigger-key "TAB")
-;;(global-auto-complete-mode t)
-;;(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 
 ;; TODO AUTOLOAD
 ;; (require 'textile-mode)
@@ -172,10 +170,6 @@
 ;;   (autoload 'mode-compile-kill "mode-compile"
 ;;    "Command to kill a compilation launched by `mode-compile'" t)
 ;;   (global-set-key "\C-ck" 'mode-compile-kill)
-;; YAS
-;; (require 'yasnippet)
-;; (yas/initialize)
-;; (yas/load-directory "~/.emacs.d/snippets")
 ;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -266,54 +260,76 @@
               (file-name-directory buffer-file-name))
              (file-writable-p buffer-file-name)
              ;;(if (fboundp 'tramp-list-remote-buffers)
-						 ;;    (not (subsetp
-						 ;;         (list (current-buffer))
-						 ;;  (tramp-list-remote-buffers)))
-						 t)
+             ;;    (not (subsetp
+             ;;         (list (current-buffer))
+             ;;  (tramp-list-remote-buffers)))
+             t)
     (local-set-key (kbd "C-c d")
                    'flymake-display-err-menu-for-current-line)
     (flymake-mode t)))
 
-(eval-after-load 'ruby-mode
-  '(progn
-     (require 'flymake)
-     (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-     (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
-     (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3)
-           flymake-err-line-patterns)
-     (add-hook 'ruby-mode-hook 'flymake-ruby-enable)))
+;; (eval-after-load 'ruby-mode
+;;   '(progn
+;;      (require 'flymake)
+;;      (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
+;;      (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
+;;      (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3)
+;;            flymake-err-line-patterns)
+;;      (add-hook 'ruby-mode-hook 'flymake-ruby-enable)))
 
 ;; Rinari (Minor Mode for Ruby On Rails)
 (setq rinari-major-modes
       (list 'mumamo-after-change-major-mode-hook 'dired-mode-hook 'ruby-mode-hook
             'css-mode-hook 'yaml-mode-hook 'javascript-mode-hook))
 
-
 (add-hook 'ruby-mode-hook
-          '(lambda ()
-             (make-variable-buffer-local 'yas/trigger-key)
-             (setq yas/trigger-key [tab])))
+          (lambda()
+            ;; (make-variable-buffer-local 'yas/trigger-key)
+            ;; (setq yas/trigger-key [tab])))
+            (make-local-variable 'ac-stop-words)
+            (add-hook 'local-write-file-hooks
+                      '(lambda()
+                         (save-excursion
+                           (untabify (point-min) (point-max))
+                           (delete-trailing-whitespace)
+                           )
+                         )
+                      )
+            (add-to-list 'ac-stop-words "end")
+            (set (make-local-variable 'indent-tabs-mode) 'nil)
+            (set (make-local-variable 'tab-width) 2)
+            (imenu-add-to-menubar "IMENU")
+            (define-key ruby-mode-map "\C-m" 'newline-and-indent)
+            (require 'ruby-electric)
+            (ruby-electric-mode t)
+            )
+          )
 
-(add-hook 'ruby-mode-hook
-					(lambda()
-						(make-local-variable 'ac-stop-words)
-						(add-to-list 'ac-stop-words "end")
-						(add-hook 'local-write-file-hooks
-											'(lambda()
-												 (save-excursion
-													 (untabify (point-min) (point-max))
-													 (delete-trailing-whitespace)
-													 )
-												 )
-											)
-						(set (make-local-variable 'indent-tabs-mode) 'nil)
-						(set (make-local-variable 'tab-width) 2)
-						(imenu-add-to-menubar "IMENU")
-						(define-key ruby-mode-map "\C-m" 'newline-and-indent)
-						(require 'ruby-electric)
-						(ruby-electric-mode t)
-						)
-					)
+
+(defun untabify-buffer ()
+  "Untabify current buffer"
+  (interactive)
+  (untabify (point-min) (point-max)))
+
+(defun progmodes-hooks ()
+  "Hooks for programming modes"
+  ;; (yas/minor-mode-on)
+  (add-hook 'before-save-hook 'progmodes-write-hooks))
+
+(defun progmodes-write-hooks ()
+  "Hooks which run on file write for programming modes"
+  (prog1 nil
+    (set-buffer-file-coding-system 'utf-8-unix)
+    (untabify-buffer)
+    (copyright-update)
+    (delete-trailing-whitespace)))
+
+
+(add-hook 'ruby-mode-hook 'progmodes-hooks)
+(add-hook 'haml-mode-hook 'progmodes-hooks)
+(add-hook 'sass-mode-hook 'progmodes-hooks)
+(add-hook 'js2-mode-hook 'progmodes-hooks)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -324,7 +340,7 @@
 ;;(load "find-recursive")
 (require 'rails)                        ;
 
-																				; Rinari (RAILS) Configurações
+                                        ; Rinari (RAILS) Configurações
 ;; (require 'rinari)
 ;; (setq rinari-tags-file-name "TAGS")
 
@@ -336,7 +352,7 @@
 ;;
 (require 'ido)
 (ido-mode t)
-																				;(setq ido-enable-flex-matching t)
+                                        ;(setq ido-enable-flex-matching t)
 (setq ;; Use it for many file dialogs
  ido-everywhere t
  ido-case-fold t)  ;; Don’t be case sensitive
@@ -398,16 +414,16 @@
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
 (defun autotest ()
-	(interactive)
-	(let ((buffer (shell "autotest")))
-		(comint-send-string buffer "autotest\n")))
+  (interactive)
+  (let ((buffer (shell "autotest")))
+    (comint-send-string buffer "autotest\n")))
 
 (defun autotest-switch ()
-	(interactive)
-	(if (equal "autotest" (buffer-name))
-			(previous-buffer)
-		(switch-to-buffer "autotest")))
-																				; add to ruby mode hook:
+  (interactive)
+  (if (equal "autotest" (buffer-name))
+      (previous-buffer)
+    (switch-to-buffer "autotest")))
+                                        ; add to ruby mode hook:
 (define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
 
@@ -456,7 +472,7 @@
 (autoload 'findr-query-replace "findr" "Replace text in files." t)
 (define-key global-map [(meta control r)] 'findr-query-replace)
 
-																				;(define-key shell-mode-map "\C-c\C-a" 'autotest-switch)
+                                        ;(define-key shell-mode-map "\C-c\C-a" 'autotest-switch)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -538,12 +554,12 @@
 (add-hook 'deselect-frame-hook 'dld-deselect-frame-hook)
 
 (setq auto-mode-alist (append
-											 '(("\\.cu$" . c++-mode))
-											 auto-mode-alist))
+                       '(("\\.cu$" . c++-mode))
+                       auto-mode-alist))
 
 (setq auto-mode-alist (append
-											 '(("\\.pde$" . c++-mode))
-											 auto-mode-alist))
+                       '(("\\.pde$" . c++-mode))
+                       auto-mode-alist))
 
 
 
@@ -608,12 +624,17 @@
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
 
+
+
+;; Autocomplete
+;; http://cx4a.org/software/auto-complete/
+;; ;;(add-to-list 'ac-dictionary-directories "/home/nofxx/git/emacx/.emacs.d//ac-dict")
+(require 'auto-complete-config)
+(setq ac-auto-start nil)
+(ac-config-default)
+(ac-set-trigger-key "TAB")
+;;(global-auto-complete-mode t)
+;;(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 (add-to-list 'ac-modes 'coffee-mode)
-
-
-
-
-
-
 
 
