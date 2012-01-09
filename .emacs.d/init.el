@@ -10,6 +10,7 @@
 (setq visible-bell t)
 (prefer-coding-system 'utf-8)
 (defalias 'yes-or-no-p 'y-or-n-p)
+(desktop-save-mode 1) ;; Desktop Save Nice....
 
 (setq truncate-lines t) ;; disable line wrap
 (setq x-select-enable-clipboard t) ;; make emacs use the clipboard
@@ -39,16 +40,26 @@
 ;;       whitespace-style '(lines))
 ;; (global-whitespace-mode 1)
 
-
 ;;
 ;; Load Path
 (setq load-path
         (append (list nil "~/.emacs.d"
                          "~/.emacs.d/vendor"
                          "~/.emacs.d/auto-complete"
-                         "~/.emacs.d/color-theme"
-                         "~/.emacs.d/emacs-rails")
+                         "~/.emacs.d/color-theme")
                          load-path))
+
+(load "nxhtml/autostart.el")
+    
+;; (setq
+;;  nxhtml-global-minor-mode t
+;;  ;; mumamo-chunk-coloring 'submode-colored
+;;  nxhtml-skip-welcome t
+;;  indent-region-mode t
+;;  rng-nxml-auto-validate-flag nil
+;;  nxml-degraded t)
+
+;;(add-to-list 'auto-mode-alist '("\\.html\\.erb$" . eruby-nxhtml-mumamo-mode)) 
 
 (setq dotfiles-dir (file-name-directory
                     (or (buffer-file-name) load-file-name)))
@@ -60,8 +71,6 @@
 (if macosx-p   (require 'osx))
 (if linux-p    (require 'linux))
 
-;; Desktop Save Nice....
-(desktop-save-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -105,7 +114,7 @@
   (blink-cursor-mode -1))
 
 ;; YAS
-;; (require 'yasnippet)
+;; (require 'yasnippet
 ;; (yas/initialize)
 ;; (yas/load-directory "~/.emacs.d/snippets")
 
@@ -181,8 +190,8 @@
 ;; Part of the Emacs Starter Kit
 ;;
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
-(setq auto-mode-alist  (cons '(".erb$" . ruby-mode) auto-mode-alist))
+;;(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
+;;(setq auto-mode-alist  (cons '(".erb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".god$" . ruby-mode) auto-mode-alist))
 
 (eval-after-load 'ruby-mode
@@ -190,13 +199,13 @@
      ;; work around possible elpa bug
      (ignore-errors (require 'ruby-compilation))
      (setq ruby-use-encoding-map nil)
-     (add-hook 'ruby-mode-hook 'inf-ruby-keys)
+     ;; (add-hook 'ruby-mode-hook 'inf-ruby-keys)
      (define-key ruby-mode-map (kbd "RET") 'reindent-then-newline-and-indent)
      (define-key ruby-mode-map (kbd "C-M-h") 'backward-kill-word)
      (define-key ruby-mode-map (kbd "M-/") 'ruby-toggle-string<>simbol)
      (define-key ruby-mode-map (kbd "C-c l") "lambda")))
 
-(global-set-key (kbd "C-h r") 'ri)
+;; (global-set-key (kbd "C-h r") 'ri)
 
 ;; Rake files are ruby, too, as are gemspecs, rackup files, etc.
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
@@ -241,7 +250,7 @@
              (delete-region (point-min) (point-max))))))
      (ad-activate 'ruby-do-run-w/compilation)))
 
-(add-hook 'ruby-mode-hook 'run-coding-hook)
+;; (add-hook 'ruby-mode-hook 'run-coding-hook)
 
 ;;; Flymake
 
@@ -278,32 +287,32 @@
 ;;      (add-hook 'ruby-mode-hook 'flymake-ruby-enable)))
 
 ;; Rinari (Minor Mode for Ruby On Rails)
-(setq rinari-major-modes
-      (list 'mumamo-after-change-major-mode-hook 'dired-mode-hook 'ruby-mode-hook
-            'css-mode-hook 'yaml-mode-hook 'javascript-mode-hook))
+;; (setq rinari-major-modes
+;;       (list 'mumamo-after-change-major-mode-hook 'dired-mode-hook 'ruby-mode-hook
+;;             'css-mode-hook 'yaml-mode-hook 'javascript-mode-hook))
 
-(add-hook 'ruby-mode-hook
-          (lambda()
-            ;; (make-variable-buffer-local 'yas/trigger-key)
-            ;; (setq yas/trigger-key [tab])))
-            (make-local-variable 'ac-stop-words)
-            (add-hook 'local-write-file-hooks
-                      '(lambda()
-                         (save-excursion
-                           (untabify (point-min) (point-max))
-                           (delete-trailing-whitespace)
-                           )
-                         )
-                      )
-            (add-to-list 'ac-stop-words "end")
-            (set (make-local-variable 'indent-tabs-mode) 'nil)
-            (set (make-local-variable 'tab-width) 2)
-            (imenu-add-to-menubar "IMENU")
-            (define-key ruby-mode-map "\C-m" 'newline-and-indent)
-            (require 'ruby-electric)
-            (ruby-electric-mode t)
-            )
-          )
+;; (add-hook 'ruby-mode-hook
+;;           (lambda()
+;;             ;; (make-variable-buffer-local 'yas/trigger-key)
+;;             ;; (setq yas/trigger-key [tab])))
+;;             (make-local-variable 'ac-stop-words)
+;;             (add-hook 'local-write-file-hooks
+;;                       '(lambda()
+;;                          (save-excursion
+;;                            (untabify (point-min) (point-max))
+;;                            (delete-trailing-whitespace)
+;;                            )
+;;                          )
+;;                       )
+;;             (add-to-list 'ac-stop-words "end")
+;;             (set (make-local-variable 'indent-tabs-mode) 'nil)
+;;             (set (make-local-variable 'tab-width) 2)
+;;             (imenu-add-to-menubar "IMENU")
+;;             (define-key ruby-mode-map "\C-m" 'newline-and-indent)
+;;             (require 'ruby-electric)
+;;             (ruby-electric-mode t)
+;;             )
+;;           )
 
 
 (defun untabify-buffer ()
@@ -321,7 +330,7 @@
   (prog1 nil
     (set-buffer-file-coding-system 'utf-8-unix)
     (untabify-buffer)
-    (copyright-update)
+    ;;(copyright-update)
     (delete-trailing-whitespace)))
 
 
@@ -338,7 +347,7 @@
 ;;
 ;;
 ;;(load "find-recursive")
-(require 'rails)                        ;
+;;(require 'rails-autoload)                        ;
 
                                         ; Rinari (RAILS) Configurações
 ;; (require 'rinari)
@@ -424,7 +433,7 @@
       (previous-buffer)
     (switch-to-buffer "autotest")))
                                         ; add to ruby mode hook:
-(define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
+;;(define-key ruby-mode-map "\C-c\C-s" 'autotest-switch)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -478,7 +487,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(mumamo-background-chunk-major ((t (:background "black"))))
+ '(mumamo-background-chunk-submode1 ((t (:background "gray12")))))
 
 (cua-mode t)
 (setq cua-auto-tabify-rectangles nil)
@@ -553,13 +563,9 @@
 
 (add-hook 'deselect-frame-hook 'dld-deselect-frame-hook)
 
-(setq auto-mode-alist (append
-                       '(("\\.cu$" . c++-mode))
-                       auto-mode-alist))
-
-(setq auto-mode-alist (append
-                       '(("\\.pde$" . c++-mode))
-                       auto-mode-alist))
+;; C/C++
+(setq auto-mode-alist (append '(("\\.cu$" . c++-mode)) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.pde$" . c++-mode)) auto-mode-alist))
 
 
 
@@ -636,5 +642,5 @@
 ;;(global-auto-complete-mode t)
 ;;(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 (add-to-list 'ac-modes 'coffee-mode)
-
+(add-to-list 'ac-modes 'ruby-mode)
 
