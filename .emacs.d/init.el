@@ -8,18 +8,28 @@
 (setq user-full-name "nofxx")
 (setq user-mail-address "user@user.com")
 (setq visible-bell t)
-(prefer-coding-system 'utf-8)
-(defalias 'yes-or-no-p 'y-or-n-p)
-(desktop-save-mode 1) ;; Desktop Save Nice....
+(setq warning-minimum-level :error)
 
 (setq truncate-lines t) ;; disable line wrap
 (setq x-select-enable-clipboard t) ;; make emacs use the clipboard
 
+(defalias 'yes-or-no-p 'y-or-n-p)
+(prefer-coding-system 'utf-8)
+(desktop-save-mode 1) ;; Desktop Save Nice....
+
 ;; Transparently open compressed files
 (auto-compression-mode t)
 
-(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
-(setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
+;;    Backup
+;;
+(setq backup-inhibited t)
+(setq make-backup-file nil)
+;; (setq backup-by-copying t               ; don't clobber symlinks
+;;       delete-old-versions t
+;;       kept-new-versions 6
+;;       kept-old-versions 2
+;;       version-control t)
+
 
 ;; Add color to a shell running in emacs 'M-x shell'
 ;; (require 'ansi-color)
@@ -36,8 +46,7 @@
 ;;(setq tab-width 2)
 ;;(setq indent-tabs-mode nil)
 (setq-default tab-width 2) ; or any other preferred value
-;; (setq whitespace-line-count 80
-;;       whitespace-style '(lines))
+;; (setq whitespace-line-count 80 whitespace-style '(lines))
 ;; (global-whitespace-mode 1)
 
 ;;
@@ -49,21 +58,11 @@
                          "~/.emacs.d/color-theme")
                          load-path))
 
-(load "nxhtml/autostart.el")
-
-;; (setq
-;;  nxhtml-global-minor-mode t
-;;  ;; mumamo-chunk-coloring 'submode-colored
-;;  nxhtml-skip-welcome t
-;;  indent-region-mode t
-;;  rng-nxml-auto-validate-flag nil
-;;  nxml-degraded t)
-
-;;(add-to-list 'auto-mode-alist '("\\.html\\.erb$" . eruby-nxhtml-mumamo-mode))
 
 (setq dotfiles-dir (file-name-directory
                     (or (buffer-file-name) load-file-name)))
 (add-to-list 'load-path dotfiles-dir)
+
 ;;
 ;; SO Detection
 (setq macosx-p (string-match "darwin" (symbol-name system-type)))
@@ -71,6 +70,64 @@
 (if macosx-p   (require 'osx))
 (if linux-p    (require 'linux))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;;
+;;   Requires!
+;;
+;;
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+;; (when
+;;     (load
+;;      (expand-file-name "~/.emacs.d/elpa/package.el"))
+;;   (package-initialize))
+
+;;
+;; Perspective
+(require 'paren) (show-paren-mode t)
+(require 'linum) (global-linum-mode)
+(require 'textmate) (textmate-mode)
+(require 'perspective) (persp-mode)
+(require 'sass-mode)
+(require 'cheat)
+
+
+;; nXhtml
+(load "nxhtml/autostart.el")
+
+
+;; PKGBUILD
+;;
+(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
+(setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
+
+;; GIT
+;;
+(autoload 'magit-status "magit" nil t)
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
+;;(require 'gist)
+
+;; Markdown
+;;
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.md" . markdown-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+; YAML Mode
+(autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
+(setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
+
+
+;; TODO AUTOLOAD
+;; (require 'textile-mode)
+;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+;; (require 'lua-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -118,57 +175,6 @@
 ;; (yas/initialize)
 ;; (yas/load-directory "~/.emacs.d/snippets")
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;
-;;
-;;   Requires!
-;;
-;;
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
-;; (when
-;;     (load
-;;      (expand-file-name "~/.emacs.d/elpa/package.el"))
-;;   (package-initialize))
-
-;;
-;; Perspective
-(require 'paren) (show-paren-mode t)
-(require 'linum) (global-linum-mode)
-(require 'textmate) (textmate-mode)
-(require 'perspective) (persp-mode)
-(require 'sass-mode)
-(require 'cheat)
-
-;; GIT
-;;
-(autoload 'magit-status "magit" nil t)
-(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
-;;(require 'gist)
-
-;; Markdown
-;;
-(autoload 'markdown-mode "markdown-mode.el"
-   "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-   (cons '("\\.md" . markdown-mode) auto-mode-alist))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-; YAML Mode
-(autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
-(setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
-
-
-;; TODO AUTOLOAD
-;; (require 'textile-mode)
-;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
-;; (require 'lua-mode)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
@@ -200,27 +206,11 @@
      (define-key ruby-mode-map (kbd "M-/") 'ruby-toggle-string<>simbol)
      (define-key ruby-mode-map (kbd "C-c l") "lambda")))
 
-
 ;; (global-set-key (kbd "C-h r") 'ri)
-
-
 ;; We never want to edit Rubinius bytecode
 (add-to-list 'completion-ignored-extensions ".rbc")
 
 ;;; Rake
-
-;; (defun pcomplete/rake ()
-;;   "Completion rules for the `ssh' command."
-;;   (pcomplete-here (pcmpl-rake-tasks)))
-
-;; (defun pcmpl-rake-tasks ()
-;;   "Return a list of all the rake tasks defined in the current
-;; projects. I know this is a hack to put all the logic in the
-;; exec-to-string command, but it works and seems fast"
-;;   (delq nil (mapcar '(lambda(line)
-;;                        (if (string-match "rake \\([^ ]+\\)" line) (match-string 1 line)))
-;;                     (split-string (shell-command-to-string "rake -T") "[\n]"))))
-
 (defun rake (task)
   (interactive (list (completing-read "Rake (default: default): "
                                       (pcmpl-rake-tasks))))
@@ -330,19 +320,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
-;;    Emacs-Rails
-;;
-;;
-;;(load "find-recursive")
-;;(require 'rails-autoload)                        ;
-
-                                        ; Rinari (RAILS) Configurações
-;; (require 'rinari)
-;; (setq rinari-tags-file-name "TAGS")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;
 ;;   IDO Interactively Do Things
 ;;
 ;;
@@ -382,20 +359,6 @@
 ;;'(twit-user ""))
 ;;'(auto-save-visited-file-name t)
 ;; '(cua-mode t nil (cua-base))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;
-;;    Backup
-;;
-;;
-(setq backup-inhibited t)
-(setq make-backup-file nil)
-;; (setq backup-by-copying t               ; don't clobber symlinks
-;;       delete-old-versions t
-;;       kept-new-versions 6
-;;       kept-old-versions 2
-;;       version-control t)
 
 ;; Byte compile ~/.emacs.d
 (defun byte-recompile-home ()
@@ -468,7 +431,6 @@
 (autoload 'findr-query-replace "findr" "Replace text in files." t)
 (define-key global-map [(meta control r)] 'findr-query-replace)
 
-                                        ;(define-key shell-mode-map "\C-c\C-a" 'autotest-switch)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -553,8 +515,6 @@
 ;; C/C++
 (setq auto-mode-alist (append '(("\\.cu$" . c++-mode)) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.pde$" . c++-mode)) auto-mode-alist))
-
-
 
 ;;
 ;; TODO/FIXME/BUG
