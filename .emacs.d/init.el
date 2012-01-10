@@ -50,7 +50,7 @@
                          load-path))
 
 (load "nxhtml/autostart.el")
-    
+
 ;; (setq
 ;;  nxhtml-global-minor-mode t
 ;;  ;; mumamo-chunk-coloring 'submode-colored
@@ -59,7 +59,7 @@
 ;;  rng-nxml-auto-validate-flag nil
 ;;  nxml-degraded t)
 
-;;(add-to-list 'auto-mode-alist '("\\.html\\.erb$" . eruby-nxhtml-mumamo-mode)) 
+;;(add-to-list 'auto-mode-alist '("\\.html\\.erb$" . eruby-nxhtml-mumamo-mode))
 
 (setq dotfiles-dir (file-name-directory
                     (or (buffer-file-name) load-file-name)))
@@ -168,18 +168,6 @@
 ;; (require 'textile-mode)
 ;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 ;; (require 'lua-mode)
-;;
-;; ;; Tabbar
-;; (require 'tabbar)
-;; (tabbar-mode)
-;;   (autoload 'mode-compile "mode-compile"
-;;    "Command to compile current buffer file based on the major mode" t)
-;;   (global-set-key "\C-cc" 'mode-compile)
-;;   (global-set-key "\C-cr" 'mode-compile)
-;;   (autoload 'mode-compile-kill "mode-compile"
-;;    "Command to kill a compilation launched by `mode-compile'" t)
-;;   (global-set-key "\C-ck" 'mode-compile-kill)
-;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -190,9 +178,16 @@
 ;; Part of the Emacs Starter Kit
 ;;
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-;;(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
-;;(setq auto-mode-alist  (cons '(".erb$" . ruby-mode) auto-mode-alist))
+;; Rake files are ruby, too, as are gemspecs, rackup files, etc.
 (setq auto-mode-alist  (cons '(".god$" . ruby-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Assetfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
 
 (eval-after-load 'ruby-mode
   '(progn
@@ -205,17 +200,9 @@
      (define-key ruby-mode-map (kbd "M-/") 'ruby-toggle-string<>simbol)
      (define-key ruby-mode-map (kbd "C-c l") "lambda")))
 
+
 ;; (global-set-key (kbd "C-h r") 'ri)
 
-;; Rake files are ruby, too, as are gemspecs, rackup files, etc.
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Assetfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
 
 ;; We never want to edit Rubinius bytecode
 (add-to-list 'completion-ignored-extensions ".rbc")
@@ -625,12 +612,8 @@
 (global-set-key [f11] 'delete-other-windows)
 (global-set-key [f12] 'toggle-truncate-lines) ;; Add F12 to toggle line wrap
 
-
-
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
-
-
 
 ;; Autocomplete
 ;; http://cx4a.org/software/auto-complete/
@@ -644,3 +627,14 @@
 (add-to-list 'ac-modes 'coffee-mode)
 (add-to-list 'ac-modes 'ruby-mode)
 
+
+;; Remap selfish modes...
+(eval-after-load 'cc-mode
+  '(progn
+     (define-key c-mode-map (kbd "M-q") 'kill-this-buffer)
+     (define-key c-mode-map (kbd "M-a") 'magit-status)))
+
+(eval-after-load 'mumamo
+  '(progn
+     (define-key mumamo-map (kbd "M-q") 'kill-this-buffer)
+     (define-key mumamo-map (kbd "M-a") 'magit-status)))
