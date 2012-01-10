@@ -1,18 +1,26 @@
-# Emacs Ruby Dotfiles
+# Emacx Dotfiles
 
-Lots of modes and shortcuts to make coding in emacs more fun.
+Lots of modes and shortcuts to code in emacs fast and -fun- furious.
 
 
-## Install
+## C-c Install
+
+Make a symbolic link:
 
     git clone git://github.com/nofxx/emacx
     cd emacx && ln -s `pwd`/.emacs.d ~/.emacs.d
 
+Just move to home:
+
+    git clone git://github.com/nofxx/emacx
+    mv emacx ~/.emacs.d
+
 Or use the install script:
 
-    cd emacx
-    ./install
+    git clone git://github.com/nofxx/emacx
+    cd emacx && ./install
 
+To make loading really fast, check for byte-recompile-home.
 
 ### Fonts
 
@@ -35,12 +43,13 @@ For the lazy, check out /dev/null
 
 ## Includes
 
-* Ruby / Rails / Haml / Rspec Modes
-* JS2 / CSS Modes
+* C / Ruby / Rails / Rspec Modes
+* JS2 / Haml / CSS Modes
 * Snippets
 * Magit
 * Linum
 * Themes
+* Free p0rn!
 
 
 ## Shortcuts (Mini linux textmate.el)
@@ -55,6 +64,8 @@ For the lazy, check out /dev/null
 * M-r  =>  query-replace
 * M-w  =>  ido-switch-buffer
 
+* C-o  =>  occur
+* C-s  =>  isearch-forward-regex
 
 ## Byte compile
 
