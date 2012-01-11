@@ -93,13 +93,15 @@
 (require 'linum) (global-linum-mode)
 (require 'textmate) (textmate-mode)
 (require 'perspective) (persp-mode)
-(require 'sass-mode)
 (require 'cheat)
 
-
-;; nXhtml
+2;; nXhtml
 (load "nxhtml/autostart.el")
 
+;; better html
+(require 'haml-mode)
+(require 'sass-mode)
+(add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 
 ;; PKGBUILD
 ;;
