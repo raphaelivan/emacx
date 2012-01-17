@@ -593,6 +593,8 @@
 ;; Remap selfish modes...
 (eval-after-load 'cc-mode
   '(progn
+     (define-key c++-mode-map (kbd "M-q") 'kill-this-buffer)
+     (define-key c++-mode-map (kbd "M-a") 'magit-status)
      (define-key c-mode-map (kbd "M-q") 'kill-this-buffer)
      (define-key c-mode-map (kbd "M-a") 'magit-status)))
 
