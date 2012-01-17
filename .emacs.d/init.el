@@ -70,22 +70,13 @@
 (if macosx-p   (require 'osx))
 (if linux-p    (require 'linux))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
 ;;   Requires!
 ;;
 ;;
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
-;; (when
-;;     (load
-;;      (expand-file-name "~/.emacs.d/elpa/package.el"))
-;;   (package-initialize))
 
 ;;
 ;; Perspective
@@ -131,7 +122,7 @@
 ;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 ;; (require 'lua-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
@@ -177,7 +168,27 @@
 ;; (yas/initialize)
 ;; (yas/load-directory "~/.emacs.d/snippets")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; multi-occur cool!
+(eval-when-compile
+  (require 'cl))
+ 
+(defun get-buffers-matching-mode (mode)
+  "Returns a list of buffers where their major-mode is equal to MODE"
+  (let ((buffer-mode-matches '()))
+   (dolist (buf (buffer-list))
+     (with-current-buffer buf
+       (if (eq mode major-mode)
+           (add-to-list 'buffer-mode-matches buf))))
+   buffer-mode-matches))
+ 
+(defun multi-occur-in-this-mode ()
+  "Show all lines matching REGEXP in buffers with this major mode."
+  (interactive)
+  (multi-occur
+   (get-buffers-matching-mode major-mode)
+   (car (occur-read-primary-args))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;   Ruby
@@ -256,38 +267,7 @@
                    'flymake-display-err-menu-for-current-line)
     (flymake-mode t)))
 
-;; (eval-after-load 'ruby-mode
-;;   '(progn
-;;      (require 'flymake)
-;;      (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-;;      (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
-;;      (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3)
-;;            flymake-err-line-patterns)
-;;      (add-hook 'ruby-mode-hook 'flymake-ruby-enable)))
-
-;; Rinari (Minor Mode for Ruby On Rails)
-;; (setq rinari-major-modes
-;;       (list 'mumamo-after-change-major-mode-hook 'dired-mode-hook 'ruby-mode-hook
-;;             'css-mode-hook 'yaml-mode-hook 'javascript-mode-hook))
-
 ;; (add-hook 'ruby-mode-hook
-;;           (lambda()
-;;             ;; (make-variable-buffer-local 'yas/trigger-key)
-;;             ;; (setq yas/trigger-key [tab])))
-;;             (make-local-variable 'ac-stop-words)
-;;             (add-hook 'local-write-file-hooks
-;;                       '(lambda()
-;;                          (save-excursion
-;;                            (untabify (point-min) (point-max))
-;;                            (delete-trailing-whitespace)
-;;                            )
-;;                          )
-;;                       )
-;;             (add-to-list 'ac-stop-words "end")
-;;             (set (make-local-variable 'indent-tabs-mode) 'nil)
-;;             (set (make-local-variable 'tab-width) 2)
-;;             (imenu-add-to-menubar "IMENU")
-;;             (define-key ruby-mode-map "\C-m" 'newline-and-indent)
 ;;             (require 'ruby-electric)
 ;;             (ruby-electric-mode t)
 ;;             )
@@ -319,7 +299,7 @@
 (add-hook 'js2-mode-hook 'progmodes-hooks)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;   IDO Interactively Do Things
@@ -480,26 +460,6 @@
 (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
 (moz-minor-mode 1)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;
-;;
-;; Textmate goods
-;; from http://github.com/topfunky/emacs-starter-kit
-;;
-;; (defun textmate-next-line ()
-;;   (interactive)
-;;   (end-of-line)
-;;   (newline-and-indent))
-;; (defun textmate-previous-line ()
-;;   (interactive)
-;;   (beginning-of-line)
-;;   (newline-and-indent)
-;;   (previous-line)
-;;   (indent-according-to-mode))
-
-;; Save on lose focus (only xemacs)
 (defun dld-deselect-frame-hook ()
   (save-some-buffers 1))
 
@@ -525,7 +485,7 @@
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
@@ -543,6 +503,7 @@
 (global-set-key "\M-r" 'query-replace)
 (global-set-key "\M-w" 'ido-switch-buffer)
 (global-set-key "\M-W" 'bookmark-jump)
+(global-set-key "\M-f" 'multi-occur-in-this-mode)
 
 (global-set-key [S-return] 'open-line)
 (global-set-key "\C-o" 'occur)
