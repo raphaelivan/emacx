@@ -326,6 +326,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auto-save-interval 9999)
+ '(debug-on-error nil)
  '(auto-save-timeout 9999)
  '(display-time-mode t)
  '(flymake-js-off t)
