@@ -7,7 +7,17 @@
 ;; User
 (setq user-full-name "nofxx")
 (setq user-mail-address "user@user.com")
-(setq visible-bell t)
+;;(setq visible-bell f)
+
+(defun my-bell-function ()
+  (unless (memq this-command
+    	'(isearch-abort abort-recursive-edit exit-minibuffer
+              keyboard-quit mwheel-scroll down up next-line previous-line
+              backward-char forward-char))
+    (ding)))
+(setq ring-bell-function 'my-bell-function)
+
+
 (setq warning-minimum-level :error)
 
 (setq truncate-lines t) ;; disable line wrap
@@ -321,13 +331,15 @@
 
 ;; EMACS WRITES HERE
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(auto-save-interval 9999)
- '(debug-on-error nil)
  '(auto-save-timeout 9999)
+ '(blink-cursor-mode nil)
+ '(cua-mode t nil (cua-base))
+ '(debug-on-error nil)
  '(display-time-mode t)
  '(flymake-js-off t)
  '(fset (quote yes-or-no-p) t)
@@ -336,6 +348,7 @@
  '(rails-indent-and-complete nil)
  '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
+ '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
 ;;'(twit-pass "")
@@ -415,10 +428,11 @@
 (define-key global-map [(meta control r)] 'findr-query-replace)
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#111" :foreground "#eee" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 240 :width normal :foundry "apple" :family "Inconsolata"))))
  '(mumamo-background-chunk-major ((t (:background "black"))))
  '(mumamo-background-chunk-submode1 ((t (:background "gray12")))))
 
@@ -564,3 +578,8 @@
   '(progn
      (define-key mumamo-map (kbd "M-q") 'kill-this-buffer)
      (define-key mumamo-map (kbd "M-a") 'magit-status)))
+
+
+
+
+
