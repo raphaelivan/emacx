@@ -1,11 +1,11 @@
 ;;
 ;; OS X Stuff
 ;;
-(setq visible-bell t)
+;;(setq visible-bell t)
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
-(require 'carbon-font)
-(fixed-width-set-default-fontset "-apple-inconsolata-medium-r-normal--18-*-*-*-*-*-iso10646-1")
+;;(require 'carbon-font)
+;;(fixed-width-set-default-fontset "-apple-inconsolata-medium-r-normal--18-*-*-*-*-*-iso10646-1")
 
 (setq mac-command-key-is-meta nil)
 (setq cua-enable-cua-keys nil)
@@ -34,3 +34,4 @@
 ;; (shell-command (concat "/usr/bin/open " (dired-get-filename))))))))
 
 
+(provide 'osx)
