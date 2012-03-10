@@ -11,7 +11,7 @@
 
 (defun my-bell-function ()
   (unless (memq this-command
-    	'(isearch-abort abort-recursive-edit exit-minibuffer
+     '(isearch-abort abort-recursive-edit exit-minibuffer
               keyboard-quit mwheel-scroll down up next-line previous-line
               backward-char forward-char))
     (ding)))
@@ -181,7 +181,7 @@
 ;; multi-occur cool!
 (eval-when-compile
   (require 'cl))
- 
+
 (defun get-buffers-matching-mode (mode)
   "Returns a list of buffers where their major-mode is equal to MODE"
   (let ((buffer-mode-matches '()))
@@ -190,7 +190,7 @@
        (if (eq mode major-mode)
            (add-to-list 'buffer-mode-matches buf))))
    buffer-mode-matches))
- 
+
 (defun multi-occur-in-this-mode ()
   "Show all lines matching REGEXP in buffers with this major mode."
   (interactive)
@@ -427,14 +427,6 @@
 (autoload 'findr-query-replace "findr" "Replace text in files." t)
 (define-key global-map [(meta control r)] 'findr-query-replace)
 
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#111" :foreground "#eee" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 240 :width normal :foundry "apple" :family "Inconsolata"))))
- '(mumamo-background-chunk-major ((t (:background "black"))))
- '(mumamo-background-chunk-submode1 ((t (:background "gray12")))))
 
 (cua-mode t)
 (setq cua-auto-tabify-rectangles nil)
