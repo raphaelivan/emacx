@@ -122,6 +122,10 @@
 (setq auto-mode-alist
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+
+;; LOAD GIT
+(add-to-list 'exec-path "/usr/local/git/bin/")
+
 ; YAML Mode
 (autoload 'yaml-mode "yaml-mode" "Major mode for editing yaml files." t)
 (setq auto-mode-alist  (cons '(".yml$" . yaml-mode) auto-mode-alist))
