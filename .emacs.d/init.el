@@ -537,14 +537,14 @@
 (global-set-key [f5] 'bookmark-set)
 (global-set-key [f6] 'eshell)
 (global-set-key [f7] 'persp-switch)
-(global-set-key [f8] 'bookmark-jump)
+;;(global-set-key [f8] 'bookmark-jump)
 (global-set-key [f9] 'recompile)
 (global-set-key [f10] 'compile)
 
 (setq tramp-shell-prompt-pattern "^[^$>\n]*[#$%>] *\\(\[[0-9;]*[a-zA-Z] *\\)*")
 
 (global-set-key [f11] 'delete-other-windows)
-(global-set-key [f12] 'toggle-truncate-lines) ;; Add F12 to toggle line wrap
+(global-set-key [f8] 'toggle-truncate-lines) ;; Add F12 to toggle line wrap
 
 ;; Evil commands
 (put 'erase-buffer 'disabled nil)
